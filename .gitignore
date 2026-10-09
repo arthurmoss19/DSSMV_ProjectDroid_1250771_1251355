@@ -1,18 +1,39 @@
 # Gradle
+
 .gradle/
 **/.gradle/
 
 # Build
+
 build/
 **/build/
 
 # IntelliJ / Android Studio
+
 .idea/
+**/.idea/
 *.iml
 
+# Android local configuration
+
+local.properties
+**/local.properties
+
 # VS Code
+
 .vscode/
 
+# Android generated files
+
+/captures/
+/.externalNativeBuild/
+/.cxx/
+
 # Sistema operativo
+
 .DS_Store
 Thumbs.db
+
+# Java compiled files
+
+*.class
