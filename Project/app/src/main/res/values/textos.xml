@@ -1,3 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources>
+
     <string name="app_name">TripTrail</string>
+    <string name="app_tagline">Diário de viagens</string>
+
+    <string name="action_save">Guardar</string>
+    <string name="action_back">Voltar</string>
+    <string name="action_close">Fechar</string>
+    <string name="action_refresh">Atualizar dados</string>
+
+    <string name="trips_menu_logout">Sair</string>
+    <string name="place_detail_menu_edit">Editar</string>
+    <string name="place_detail_menu_delete">Apagar</string>
+
+    <string name="login_welcome">Bem-vindo ao TripTrail</string>
+    <string name="login_instructions">Entre com a sua conta para ver as suas viagens.</string>
+    <string name="login_hint_email">Email</string>
+    <string name="login_hint_password">Palavra-passe</string>
+    <string name="login_action_enter">Entrar</string>
+    <string name="login_action_register">Criar conta</string>
+    <string name="register_title">Criar conta</string>
+    <string name="register_instructions">A palavra-passe nunca é guardada em texto simples.</string>
+    <string name="register_hint_name">Nome</string>
+    <string name="register_hint_email">Email</string>
+    <string name="register_hint_password">Palavra-passe (mínimo 6 caracteres)</string>
+    <string name="register_hint_password_confirm">Repetir palavra-passe</string>
+    <string name="register_action_save">Criar conta</string>
+
+    <string name="trips_new">Nova viagem</string>
+    <string name="trips_empty">Ainda não tem viagens. Toque em Nova viagem para criar a primeira.</string>
+    <string name="trips_new_title">Nova viagem</string>
+    <string name="trips_label_title">Título</string>
+    <string name="trips_hint_title">Ex.: Porto - Algarve</string>
+    <string name="trips_label_description">Descrição</string>
+    <string name="trips_hint_description">O que pretende visitar…</string>
+    <string name="trips_label_start_date">Data de início</string>
+    <string name="trips_label_end_date">Data de fim</string>
+    <string name="trips_cd_trip_icon">Ícone da viagem</string>
+    <string name="trip_detail_default_title">Viagem</string>
+
+    <string name="places_search_hint">Pesquisar local pelo nome</string>
+    <string name="places_empty">Sem locais nesta viagem. Toque em "Novo local" para acrescentar o primeiro.</string>
+    <string name="places_add">Novo local</string>
+    <string name="place_form_title_new">Novo local</string>
+    <string name="place_form_section_place">Local</string>
+    <string name="place_form_name">Nome do local</string>
+    <string name="place_form_category">Categoria</string>
+    <string name="place_form_rating">Avaliação</string>
+    <string name="place_form_section_location">Posição</string>
+    <string name="place_form_coordinates_empty">Sem coordenadas</string>
+    <string name="place_form_get_location">Obter posição GPS</string>
+    <string name="place_form_manual_hint">Sem GPS? Também pode escrever as coordenadas à mão.</string>
+    <string name="place_form_latitude">Latitude</string>
+    <string name="place_form_longitude">Longitude</string>
+    <string name="place_form_section_apis">Morada e país (APIs)</string>
+    <string name="place_form_address_empty">Ainda sem morada. Use o GPS para a obter.</string>
+    <string name="place_form_country_empty">Ainda sem informação do país.</string>
+    <string name="place_form_section_photos">Fotografias</string>
+    <string name="place_form_take_photo">Tirar fotografia</string>
+    <string name="place_form_photos_none">Sem fotografias</string>
+    <string name="place_detail_title">Local</string>
+    <string name="place_detail_photos_title">Fotografias</string>
+    <string name="place_detail_photos_add">Tirar fotografia</string>
+    <string name="place_detail_photos_empty">Ainda não há fotografias deste local.</string>
+    <string name="place_detail_expenses">Despesas</string>
+    <string name="place_detail_expenses_empty">Ainda não há despesas neste local.</string>
+    <string name="place_detail_expenses_total">Total: %1$s</string>
+    <string name="place_detail_expense_description">Descrição</string>
+    <string name="place_detail_expense_amount">Valor</string>
+    <string name="place_detail_expense_add">Adicionar despesa</string>
+
+    <string name="camera_capture">Tirar fotografia</string>
+
+    <string name="members_invite_hint">Email do participante</string>
+    <string name="members_invite">Convidar</string>
+    <string name="members_invite_help">O convidado tem de ter conta no TripTrail. Pode consultar a viagem e acrescentar locais.</string>
+    <string name="members_empty">Ainda não há participantes nesta viagem.</string>
+    <string name="members_remove_help">Toque num participante para o remover.</string>
+
+    <string name="map_empty_message">Ainda não há locais nesta viagem.\nAcrescente locais no separador "Locais" para os ver aqui no mapa.</string>
+    <string name="map_hint_tap_marker">Toque num marcador para abrir o local</string>
+    <string name="map_content_description">Mapa da viagem com os locais visitados</string>
+
+    <string name="stats_places">Locais visitados</string>
+    <string name="stats_countries">Países</string>
+    <string name="stats_distance">Distância total</string>
+    <string name="stats_rating">Avaliação média</string>
+    <string name="stats_expenses">Despesas totais</string>
+    <string name="stats_empty">Acrescente locais à viagem para ver aqui as estatísticas.</string>
+
+    <string name="cd_login_logo">Logótipo do TripTrail</string>
+    <string name="cd_photo">Fotografia do local</string>
+    <string name="cd_viewfinder">Pré-visualização da câmara</string>
+
 </resources>
