@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="tt_primary">#00695C</color>
+    <color name="tt_primary_dark">#004D40</color>
+    <color name="tt_primary_container">#B2DFDB</color>
+    <color name="tt_on_primary_container">#00332C</color>
+    <color name="tt_secondary">#E64A19</color>
+    <color name="tt_secondary_container">#FFCCBC</color>
+    <color name="tt_tertiary">#1565C0</color>
+
+    <color name="tt_background">#F4F7F6</color>
+    <color name="tt_surface">#FFFFFF</color>
+    <color name="tt_surface_variant">#E7EFEC</color>
+    <color name="tt_on_surface">#1B1B1B</color>
+    <color name="tt_on_surface_variant">#5A6663</color>
+    <color name="tt_outline">#C6D2CE</color>
+
+    <color name="tt_error">#B3261E</color>
+    <color name="tt_rating">#F9A825</color>
+    <color name="tt_white">#FFFFFF</color>
+    <color name="tt_black">#000000</color>
+    
+    <color name="tt_category_restaurant">#E64A19</color>
+    <color name="tt_category_monument">#6A1B9A</color>
+    <color name="tt_category_nature">#2E7D32</color>
+    <color name="tt_category_lodging">#1565C0</color>
+    <color name="tt_category_beach">#0097A7</color>
+    <color name="tt_category_museum">#8D6E63</color>
+    <color name="tt_category_other">#546E7A</color>
 </resources>
