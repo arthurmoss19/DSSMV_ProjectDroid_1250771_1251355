@@ -34,4 +34,40 @@ public class TripDetailActivity extends AppCompatActivity {
         intent.putExtra(Extras.TRIP_ID, tripId);
         context.startActivity(intent);
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.trip_details_screen);
+
+        tripId = getIntent().getStringExtra(Extras.TRIP_ID);
+
+        toolbar = findViewById(R.id.toolbar);
+        tabLayout = findViewById(R.id.tabLayout);
+        viewPager = findViewById(R.id.viewPager);
+
+        toolbar.setNavigationOnClickListener(view -> finish());
+        toolbar.setTitle(R.string.trip_detail_default_title);
+
+        loadTrip();
+    }
+
+    private void loadTrip() {
+        tripController.getTrip(tripId, new ApiCallback<Trip>() {
+            @Override
+            public void onSuccess(Trip trip) {
+                if (trip == null || isFinishing()) {
+                    return;
+                }
+                toolbar.setTitle(trip.getTitle());
+            }
+
+            @Override
+            public void onError(String message) {
+                if (isFinishing()) {
+                    return;
+                }
+            }
+        });
+    }
 }

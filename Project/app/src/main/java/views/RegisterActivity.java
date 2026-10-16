@@ -29,6 +29,28 @@ public class RegisterActivity extends AppCompatActivity {
 
     private final UserController userController = new UserController();
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.register_screen);
+
+        bindViews();
+
+        MaterialToolbar toolbar = findViewById(R.id.toolbarRegister);
+        toolbar.setNavigationOnClickListener(view -> finish());
+
+        buttonRegister.setOnClickListener(view -> doRegister());
+    }
+
+    private void bindViews() {
+        editName = findViewById(R.id.editRegisterName);
+        editEmail = findViewById(R.id.editRegisterEmail);
+        editPassword = findViewById(R.id.editRegisterPassword);
+        editPasswordConfirm = findViewById(R.id.editRegisterPasswordConfirm);
+        buttonRegister = findViewById(R.id.buttonRegister);
+        progressRegister = findViewById(R.id.progressRegister);
+    }
+
     private void doRegister() {
         String name = valueOf(editName);
         String email = valueOf(editEmail);
