@@ -3,7 +3,6 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/tt_background"
               android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -12,279 +11,23 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/icon_back"
-            app:title="@string/place_detail_title" />
+            app:title="@string/trip_detail_default_title" />
 
-    <FrameLayout
+    <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/tt_primary"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/tt_white"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/tt_white"
+            app:tabTextColor="@color/tt_primary_container" />
+
+    <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
-
-        <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/spacing_medium">
-
-                <com.google.android.material.card.MaterialCardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:cardCornerRadius="@dimen/card_corner"
-                        app:cardElevation="@dimen/card_elevation">
-
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="@dimen/spacing_medium">
-
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-
-                            <ImageView
-                                    android:id="@+id/imagePlaceCategoryIcon"
-                                    android:layout_width="36dp"
-                                    android:layout_height="36dp"
-                                    android:contentDescription="@null"
-                                    android:src="@drawable/icon_category_other" />
-
-                            <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/spacing_medium"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                <TextView
-                                        android:id="@+id/textPlaceName"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:textAppearance="?attr/textAppearanceHeadlineSmall"
-                                        android:textColor="?android:attr/textColorPrimary" />
-
-                                <TextView
-                                        android:id="@+id/textPlaceCategory"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:textAppearance="?attr/textAppearanceBodyMedium"
-                                        android:textColor="@color/tt_on_surface_variant" />
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/spacing_small"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-
-                            <ImageView
-                                    android:layout_width="@dimen/icon_size"
-                                    android:layout_height="@dimen/icon_size"
-                                    android:contentDescription="@null"
-                                    android:src="@drawable/icon_star"
-                                    app:tint="@color/tt_rating" />
-
-                            <TextView
-                                    android:id="@+id/textPlaceRating"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/spacing_small"
-                                    android:textAppearance="?attr/textAppearanceTitleMedium"
-                                    android:textColor="?android:attr/textColorPrimary" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/spacing_small"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-
-                            <ImageView
-                                    android:layout_width="@dimen/icon_size"
-                                    android:layout_height="@dimen/icon_size"
-                                    android:contentDescription="@null"
-                                    android:src="@drawable/icon_location"
-                                    app:tint="@color/tt_primary" />
-
-                            <TextView
-                                    android:id="@+id/textPlaceCoordinates"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/spacing_small"
-                                    android:textAppearance="?attr/textAppearanceBodyMedium"
-                                    android:textColor="?android:attr/textColorPrimary" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/spacing_small"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-
-                            <ImageView
-                                    android:layout_width="@dimen/icon_size"
-                                    android:layout_height="@dimen/icon_size"
-                                    android:contentDescription="@null"
-                                    android:src="@drawable/icon_calendar"
-                                    app:tint="@color/tt_primary" />
-
-                            <TextView
-                                    android:id="@+id/textPlaceVisitedAt"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/spacing_small"
-                                    android:textAppearance="?attr/textAppearanceBodyMedium"
-                                    android:textColor="?android:attr/textColorPrimary" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/spacing_small"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-
-                            <ImageView
-                                    android:layout_width="@dimen/icon_size"
-                                    android:layout_height="@dimen/icon_size"
-                                    android:contentDescription="@null"
-                                    android:src="@drawable/icon_pin"
-                                    app:tint="@color/tt_primary" />
-
-                            <TextView
-                                    android:id="@+id/textPlaceAddress"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/spacing_small"
-                                    android:layout_weight="1"
-                                    android:textAppearance="?attr/textAppearanceBodyMedium"
-                                    android:textColor="?android:attr/textColorPrimary" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/spacing_small"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-
-                            <ImageView
-                                    android:layout_width="@dimen/icon_size"
-                                    android:layout_height="@dimen/icon_size"
-                                    android:contentDescription="@null"
-                                    android:src="@drawable/icon_country"
-                                    app:tint="@color/tt_primary" />
-
-                            <TextView
-                                    android:id="@+id/textPlaceCountry"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/spacing_small"
-                                    android:layout_weight="1"
-                                    android:textAppearance="?attr/textAppearanceBodyMedium"
-                                    android:textColor="?android:attr/textColorPrimary" />
-
-                        </LinearLayout>
-
-                        <com.google.android.material.button.MaterialButton
-                                android:id="@+id/buttonRefreshData"
-                                style="@style/Widget.Material3.Button.OutlinedButton"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/spacing_medium"
-                                android:text="@string/action_refresh"
-                                android:visibility="gone"
-                                app:icon="@drawable/icon_refresh" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_medium"
-                        android:layout_marginBottom="@dimen/spacing_large"
-                        app:cardCornerRadius="@dimen/card_corner"
-                        app:cardElevation="@dimen/card_elevation">
-
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="@dimen/spacing_medium">
-
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-
-                            <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="@string/place_detail_photos_title"
-                                    android:textAppearance="?attr/textAppearanceTitleMedium"
-                                    android:textColor="?android:attr/textColorPrimary" />
-
-                            <com.google.android.material.button.MaterialButton
-                                    android:id="@+id/buttonAddPhoto"
-                                    style="@style/Widget.Material3.Button.TonalButton"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/place_detail_photos_add"
-                                    app:icon="@drawable/icon_camera" />
-
-                        </LinearLayout>
-
-                        <TextView
-                                android:id="@+id/textPhotosEmpty"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/spacing_small"
-                                android:text="@string/place_detail_photos_empty"
-                                android:textAppearance="?attr/textAppearanceBodyMedium"
-                                android:textColor="@color/tt_on_surface_variant" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/recyclerPhotos"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/spacing_small"
-                                android:clipToPadding="false" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-            </LinearLayout>
-
-        </androidx.core.widget.NestedScrollView>
-
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/progressPlaceDetail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:indeterminate="true"
-                android:visibility="gone" />
-
-    </FrameLayout>
+            android:layout_weight="1" />
 
 </LinearLayout>
