@@ -94,4 +94,15 @@
     <string name="cd_photo">Fotografia do local</string>
     <string name="cd_viewfinder">Pré-visualização da câmara</string>
 
+    <string name="place_rating_format">%1$d/5</string>
+    <string name="place_no_address">Sem morada</string>
+    <string name="members_role_owner">Proprietário</string>
+    <string name="members_role_guest">Convidado</string>
+    <string name="members_unknown">Utilizador desconhecido</string>
+    <plurals name="trips_duration">
+        <item quantity="one">%1$d dia</item>
+        <item quantity="many">%1$d dias</item>
+        <item quantity="other">%1$d dias</item>
+    </plurals>
+
 </resources>
