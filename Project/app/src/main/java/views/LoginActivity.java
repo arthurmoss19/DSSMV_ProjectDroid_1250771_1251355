@@ -26,12 +26,23 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText editPassword;
     private MaterialButton buttonLogin;
     private MaterialButton buttonGoToRegister;
-    private TextView textDemoHint;
     private ProgressBar progressLogin;
 
     private final UserController userController = new UserController();
 
     private boolean redirected;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.login_screen);
+
+        bindViews();
+
+        buttonLogin.setOnClickListener(view -> doLogin());
+        buttonGoToRegister.setOnClickListener(view ->
+                startActivity(new Intent(this, RegisterActivity.class)));
+    }
 
     @Override
     protected void onResume() {
