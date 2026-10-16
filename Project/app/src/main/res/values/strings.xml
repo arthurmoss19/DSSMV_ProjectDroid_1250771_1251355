@@ -15,13 +15,11 @@
     <string name="place_detail_menu_delete">Apagar</string>
 
     <string name="login_welcome">Bem-vindo ao TripTrail</string>
-    <string name="login_instructions">Entre com a sua conta para ver as suas viagens.</string>
     <string name="login_hint_email">Email</string>
     <string name="login_hint_password">Palavra-passe</string>
     <string name="login_action_enter">Entrar</string>
     <string name="login_action_register">Criar conta</string>
     <string name="register_title">Criar conta</string>
-    <string name="register_instructions">A palavra-passe nunca é guardada em texto simples.</string>
     <string name="register_hint_name">Nome</string>
     <string name="register_hint_email">Email</string>
     <string name="register_hint_password">Palavra-passe (mínimo 6 caracteres)</string>
