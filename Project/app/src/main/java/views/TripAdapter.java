@@ -16,19 +16,12 @@ import com.triptrail.R;
 import model.Trip;
 import util.DateUtils;
 
-/**
- * Lista das viagens do utilizador (F2). Guarda as viagens recebidas em setTrips
- * e avisa o ecrã quando uma linha é tocada.
- */
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder> {
 
-    /** Interações possíveis com uma linha da lista. */
     public interface OnTripClickListener {
 
-        /** Toque simples: abrir o detalhe da viagem. */
         void onTripClick(Trip trip);
 
-        /** Toque longo: apagar a viagem (com confirmação). */
         void onTripLongClick(Trip trip);
     }
 
@@ -41,7 +34,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
         this.listener = listener;
     }
 
-    /** Substitui as viagens mostradas. */
     public void setTrips(List<Trip> trips) {
         this.trips.clear();
         if (trips != null) {
@@ -50,7 +42,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
         notifyDataSetChanged();
     }
 
-    // viagem da posição pedida (ou null)
     public Trip getTripAt(int position) {
         if (position < 0 || position >= trips.size()) {
             return null;
@@ -97,7 +88,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
         });
     }
 
-    /** Mantém as referências às vistas de uma linha, para não as procurar sempre. */
     public static class TripViewHolder extends RecyclerView.ViewHolder {
 
         final TextView title;
