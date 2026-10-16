@@ -41,6 +41,14 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    private void bindViews() {
+        editEmail = findViewById(R.id.editLoginEmail);
+        editPassword = findViewById(R.id.editLoginPassword);
+        buttonLogin = findViewById(R.id.buttonLogin);
+        buttonGoToRegister = findViewById(R.id.buttonGoToRegister);
+        progressLogin = findViewById(R.id.progressLogin);
+    }
+
     private void doLogin() {
         String email = valueOf(editEmail);
         String password = valueOf(editPassword);

@@ -43,6 +43,35 @@ public class TripFormActivity extends AppCompatActivity {
 
     private Trip editingTrip;
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.new_trip_screen);
+
+        tripController = new TripController();
+        session = SessionManager.getInstance(this);
+
+        toolbar = findViewById(R.id.toolbar);
+        editTitle = findViewById(R.id.editTripTitle);
+        editDescription = findViewById(R.id.editTripDescription);
+        editStartDate = findViewById(R.id.editTripStartDate);
+        editEndDate = findViewById(R.id.editTripEndDate);
+        buttonSave = findViewById(R.id.buttonSaveTrip);
+        progress = findViewById(R.id.progressTripForm);
+
+        toolbar.setNavigationOnClickListener(view -> finish());
+        buttonSave.setOnClickListener(view -> save());
+        editStartDate.setOnClickListener(view -> pickDate(true));
+        editEndDate.setOnClickListener(view -> pickDate(false));
+
+        String tripId = getIntent().getStringExtra(Extras.TRIP_ID);
+        if (tripId == null || tripId.trim().isEmpty()) {
+            startNewTrip();
+        } else {
+            loadTrip(tripId);
+        }
+    }
+
     private void startNewTrip() {
         toolbar.setTitle(R.string.trips_new_title);
         startDateIso = DateUtils.today();
@@ -50,10 +79,63 @@ public class TripFormActivity extends AppCompatActivity {
         showDates();
     }
 
+    private void loadTrip(String tripId) {
+        showLoading(true);
+
+        tripController.getTrip(tripId, new ApiCallback<Trip>() {
+            @Override
+            public void onSuccess(Trip trip) {
+                showLoading(false);
+                if (trip == null) {
+                    finish();
+                    return;
+                }
+                editingTrip = trip;
+                editTitle.setText(trip.getTitle());
+                editDescription.setText(trip.getDescription());
+                startDateIso = trip.getStartDate();
+                endDateIso = trip.getEndDate();
+                showDates();
+            }
+
+            @Override
+            public void onError(String message) {
+                showLoading(false);
+                UiUtils.toast(TripFormActivity.this, message);
+                finish();
+            }
+        });
+    }
+
     private void showDates() {
         editStartDate.setText(DateUtils.formatDisplayDate(startDateIso));
         editEndDate.setText(DateUtils.formatDisplayDate(endDateIso));
     }
+    private void pickDate(boolean isStart) {
+        String current = isStart ? startDateIso : endDateIso;
+        Calendar calendar = Calendar.getInstance();
+        Date parsed = DateUtils.parseDate(current);
+        if (parsed != null) {
+            calendar.setTime(parsed);
+        }
+
+        DatePickerDialog dialog = new DatePickerDialog(this,
+                (view, year, month, dayOfMonth) -> {
+                    String iso = String.format(Locale.US, "%04d-%02d-%02d",
+                            year, month + 1, dayOfMonth);
+                    if (isStart) {
+                        startDateIso = iso;
+                    } else {
+                        endDateIso = iso;
+                    }
+                    showDates();
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
+        dialog.show();
+    }
+
 
     private void save() {
         try {
