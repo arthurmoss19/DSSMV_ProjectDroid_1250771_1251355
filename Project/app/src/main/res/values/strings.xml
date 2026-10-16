@@ -27,7 +27,7 @@
     <string name="register_action_save">Criar conta</string>
 
     <string name="trips_new">Nova viagem</string>
-    <string name="trips_empty">Ainda não tem viagens. Toque em Nova viagem para criar a primeira.</string>
+    <string name="trips_empty">Ainda não tem viagens. Toque em Nova viagem para criar.</string>
     <string name="trips_new_title">Nova viagem</string>
     <string name="trips_label_title">Título</string>
     <string name="trips_hint_title">Ex.: Porto - Algarve</string>
@@ -49,11 +49,11 @@
     <string name="place_form_section_location">Posição</string>
     <string name="place_form_coordinates_empty">Sem coordenadas</string>
     <string name="place_form_get_location">Obter posição GPS</string>
-    <string name="place_form_manual_hint">Sem GPS? Também pode escrever as coordenadas à mão.</string>
+    <string name="place_form_manual_hint">Se não tiveres GPS, podes escrever.</string>
     <string name="place_form_latitude">Latitude</string>
     <string name="place_form_longitude">Longitude</string>
-    <string name="place_form_section_apis">Morada e país (APIs)</string>
-    <string name="place_form_address_empty">Ainda sem morada. Use o GPS para a obter.</string>
+    <string name="place_form_section_apis">Morada e país</string>
+    <string name="place_form_address_empty">Utiliza o GPS para aparecer a morada.</string>
     <string name="place_form_country_empty">Ainda sem informação do país.</string>
     <string name="place_form_section_photos">Fotografias</string>
     <string name="place_form_take_photo">Tirar fotografia</string>
