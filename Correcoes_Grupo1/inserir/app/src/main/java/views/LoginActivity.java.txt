@@ -1,0 +1,38 @@
+=======================================================================
+ FICHEIRO: Project/app/src/main/java/views/LoginActivity.java
+ ONDE:    depois da LINHA 34 (a linha "private boolean redirected;"),
+          antes do "@Override" do onResume.
+          Cola o bloco de baixo tal e qual.
+=======================================================================
+
+    @Override
+    protected void onCreate(android.os.Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.login_screen);
+
+        bindViews();
+
+        buttonLogin.setOnClickListener(view -> doLogin());
+        buttonGoToRegister.setOnClickListener(view ->
+                startActivity(new Intent(this, RegisterActivity.class)));
+    }
+
+    /** Liga os campos aos ids do login_screen.xml. Sem isto ficam todos null. */
+    private void bindViews() {
+        editEmail = findViewById(R.id.editLoginEmail);
+        editPassword = findViewById(R.id.editLoginPassword);
+        buttonLogin = findViewById(R.id.buttonLogin);
+        buttonGoToRegister = findViewById(R.id.buttonGoToRegister);
+        progressLogin = findViewById(R.id.progressLogin);
+    }
+
+=======================================================================
+ NOTAS:
+ * Já tens "import android.os.Bundle;" (linha 4), por isso pode trocar
+   "android.os.Bundle" por "Bundle" se preferires — para isso basta
+   escrever "protected void onCreate(Bundle savedInstanceState)".
+ * O campo "textDemoHint" e o import "com.triptrail.BuildConfig" ficam sem
+   uso. Não impedem nada (são só avisos); podes apagá-los mais tarde.
+ * O "onResume" que já tens continua a servir: se já houver sessão guardada,
+   salta logo para a lista de viagens.
+=======================================================================

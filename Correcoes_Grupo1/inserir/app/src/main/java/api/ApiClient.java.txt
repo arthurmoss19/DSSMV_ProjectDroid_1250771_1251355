@@ -1,0 +1,40 @@
+=======================================================================
+ FICHEIRO: Project/app/src/main/java/api/ApiClient.java
+          (são DUAS linhas em sítios diferentes)
+=======================================================================
+
+
+
+=======================================================================
+ BLOCO A — 1 linha
+ ONDE: depois da LINHA 11 (a linha
+       "import retrofit2.converter.gson.GsonConverterFactory;")
+=======================================================================
+
+import mock.MockInterceptor;
+
+
+
+=======================================================================
+ BLOCO B — 1 linha
+ ONDE: depois da LINHA 50 (a linha ".retryOnConnectionFailure(true);"),
+       antes de "builder.addInterceptor(chain -> {" (que é a linha 52)
+=======================================================================
+
+        builder.addInterceptor(new MockInterceptor());
+
+
+
+=======================================================================
+ NOTAS:
+ * Sem a linha do BLOCO B os pedidos saem do telemóvel a sério e batem no
+   RESTDB, onde ainda não há dados. Com ela, tudo o que seja "/rest/..."
+   é respondido pelos dados de demonstração (MockData), sem internet.
+ * A ordem importa pouco, mas convém ficar ANTES do interceptor que junta
+   o cabeçalho "x-apikey": assim o pedido é apanhado primeiro e nunca sai.
+ * Este interceptor só faz alguma coisa quando USE_MOCK_DATA=true, que é o
+   valor por omissão do app/build.gradle.kts. Quando tiveres as chaves,
+   basta pôr USE_MOCK_DATA=false no local.properties.
+ * Os dois ficheiros "mock/MockData.java" e "mock/MockInterceptor.java" vêm
+   na pasta "criar/" deste pacote — sem eles isto não compila.
+=======================================================================

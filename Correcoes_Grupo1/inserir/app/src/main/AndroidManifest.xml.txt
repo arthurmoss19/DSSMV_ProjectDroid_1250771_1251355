@@ -1,0 +1,58 @@
+=======================================================================
+ FICHEIRO: Project/app/src/main/AndroidManifest.xml
+ ONDE:    apaga as LINHAS 11 a 19 (o bloco da Activity do MainActivity,
+          que já não existe) e cola isto no lugar:
+
+              <activity
+                      android:name=".MainActivity"
+                      android:exported="true">
+                  <intent-filter>
+                      <action android:name="android.intent.action.MAIN"/>
+                      <category android:name="android.intent.category.LAUNCHER"/>
+                  </intent-filter>
+              </activity>
+
+          Sem isto o Android procura a classe com.triptrail.MainActivity,
+          não a encontra, e a app fecha logo ao abrir.
+=======================================================================
+
+        <!-- F1: entrada e registo -->
+        <activity
+                android:name=".views.LoginActivity"
+                android:exported="true"
+                android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+                android:name=".views.RegisterActivity"
+                android:exported="false"
+                android:windowSoftInputMode="adjustResize" />
+
+        <!-- F2: viagens -->
+        <activity android:name=".views.TripListActivity" android:exported="false" />
+
+        <activity
+                android:name=".views.TripFormActivity"
+                android:exported="false"
+                android:windowSoftInputMode="adjustResize" />
+
+        <activity android:name=".views.TripDetailActivity" android:exported="false" />
+
+=======================================================================
+ NOTAS:
+ * O ".views.LoginActivity" é relativo ao pacote da app (com.triptrail),
+   por isso fica com.triptrail.views.LoginActivity — que é mesmo a classe
+   que tens em app/src/main/java/views/LoginActivity.java. Não escrevas o
+   nome completo.
+ * O "android:exported="true"" é só para o ecrã de arranque (o Android
+   exige-o desde o Android 12). Os outros ficam exportados=false.
+ * Esta app não abre nenhum ecrã que não esteja aqui registado: se mais
+   tarde acrescentares Activities, tens de as registar também.
+ * A linha 3 (xmlns:tools) fica como está; não serve para nada, mas não
+   faz mal.
+=======================================================================

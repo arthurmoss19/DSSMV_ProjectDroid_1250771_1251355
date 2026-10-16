@@ -1,0 +1,199 @@
+=======================================================================
+ FICHEIRO: Project/app/src/main/java/views/TripListActivity.java
+          (são TRÊS blocos: A, B e C — aplica-os por esta ordem)
+=======================================================================
+
+
+
+=======================================================================
+ BLOCO A
+ ONDE: depois da LINHA 32 (a linha "private TripController tripController;")
+=======================================================================
+
+    private TripAdapter adapter;
+
+
+
+=======================================================================
+ BLOCO B
+ ONDE: depois da LINHA 37 (a linha "private ProgressBar progress;"),
+       antes do método "private void openForm()"
+=======================================================================
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.trips_list_screen);
+
+        session = SessionManager.getInstance(this);
+        if (!session.isLoggedIn()) {
+            UiUtils.toast(this, getString(R.string.trips_no_session));
+            goToLogin();
+            return;
+        }
+
+        tripController = new TripController();
+
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setSubtitle(session.getUserName());
+        toolbar.inflateMenu(R.menu.menu_trips_list);
+        toolbar.setOnMenuItemClickListener(this::onMenuItemSelected);
+
+        swipeRefresh = findViewById(R.id.swipeRefreshTrips);
+        recyclerTrips = findViewById(R.id.recyclerTrips);
+        emptyView = findViewById(R.id.textTripsEmpty);
+        progress = findViewById(R.id.progressTrips);
+
+        adapter = new TripAdapter(this, new TripAdapter.OnTripClickListener() {
+            @Override
+            public void onTripClick(Trip trip) {
+                openTrip(trip);
+            }
+
+            @Override
+            public void onTripLongClick(Trip trip) {
+                confirmDelete(trip);
+            }
+        });
+
+        recyclerTrips.setLayoutManager(new LinearLayoutManager(this));
+        recyclerTrips.setHasFixedSize(false);
+        recyclerTrips.setAdapter(adapter);
+
+        swipeRefresh.setOnRefreshListener(this::loadTrips);
+
+        ExtendedFloatingActionButton fab = findViewById(R.id.fabAddTrip);
+        fab.setOnClickListener(view -> openForm());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Recarrega sempre ao voltar do formulário: a lista aparece atualizada.
+        if (session != null && session.isLoggedIn()) {
+            loadTrips();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Extras.REQUEST_TRIP_FORM && resultCode == RESULT_OK) {
+            loadTrips();
+        }
+    }
+
+    private boolean onMenuItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_logout) {
+            confirmLogout();
+            return true;
+        }
+        return false;
+    }
+
+
+
+=======================================================================
+ BLOCO C
+ ONDE: substitui o método "confirmDelete" (as linhas 53 a 57 no ficheiro
+       original, que estão só com o "if" e vazio) por TODO o bloco seguinte.
+       É o que fica no fim da classe, antes da última "}" do ficheiro.
+=======================================================================
+
+    private void confirmDelete(Trip trip) {
+        if (trip == null || !trip.hasId()) {
+            return;
+        }
+        UiUtils.confirm(this,
+                getString(R.string.confirm_delete_title),
+                getString(R.string.trips_delete_message),
+                getString(R.string.action_delete),
+                (dialog, which) -> deleteTrip(trip));
+    }
+
+    private void deleteTrip(Trip trip) {
+        showLoading(true);
+        tripController.delete(trip.getId(), new ApiCallback<Void>() {
+            @Override
+            public void onSuccess(Void data) {
+                UiUtils.toast(TripListActivity.this, getString(R.string.trips_deleted));
+                loadTrips();
+            }
+
+            @Override
+            public void onError(String message) {
+                showLoading(false);
+                UiUtils.toast(TripListActivity.this, message);
+            }
+        });
+    }
+
+    private void confirmLogout() {
+        UiUtils.confirm(this,
+                getString(R.string.trips_menu_logout),
+                getString(R.string.trips_logout_message),
+                getString(R.string.trips_menu_logout),
+                (dialog, which) -> {
+                    session.logout();
+                    goToLogin();
+                });
+    }
+
+    private void goToLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    /** Um pedido por ecrã: nada de polling. */
+    private void loadTrips() {
+        showLoading(true);
+        tripController.getTrips(session.getUserId(), new ApiCallback<List<Trip>>() {
+            @Override
+            public void onSuccess(List<Trip> trips) {
+                showLoading(false);
+                adapter.setTrips(trips);
+                updateEmptyState();
+            }
+
+            @Override
+            public void onError(String message) {
+                showLoading(false);
+                UiUtils.toast(TripListActivity.this, message);
+                adapter.setTrips(null);
+                updateEmptyState();
+            }
+        });
+    }
+
+    private void showLoading(boolean loading) {
+        progress.setVisibility(loading ? View.VISIBLE : View.GONE);
+        if (!loading) {
+            swipeRefresh.setRefreshing(false);
+        }
+    }
+
+    private void updateEmptyState() {
+        boolean empty = adapter.getItemCount() == 0;
+        emptyView.setVisibility(empty ? View.VISIBLE : View.GONE);
+        recyclerTrips.setVisibility(empty ? View.GONE : View.VISIBLE);
+    }
+
+=======================================================================
+ NOTAS:
+ * Este ecrã passa a precisar do "LoginActivity" (para o "goToLogin"). Como
+   está no mesmo pacote "views", não precisa de import.
+ * Todos os imports que já tens no ficheiro passam a ser usados com estes
+   blocos (MaterialToolbar, RecyclerView, LinearLayoutManager,
+   SwipeRefreshLayout, ExtendedFloatingActionButton, MenuItem, Intent,
+   SessionManager, TripController, ApiCallback, Extras, UiUtils, Trip).
+ * Os textos "trips_no_session", "confirm_delete_title",
+   "trips_delete_message", "action_delete", "trips_deleted" e
+   "trips_logout_message" ainda não existem no teu strings.xml — vêm no
+   bloco "strings.xml.txt".
+ * Aqui usa-se a variável "emptyView" como sendo o LinearLayout
+   "@+id/textTripsEmpty" do trips_list_screen.xml (é o painel central com o
+   ícone). Se achares o nome confuso, podes trocá-lo para emptyPanel — mas
+   então troca os três sítios onde aparece.
+=======================================================================
