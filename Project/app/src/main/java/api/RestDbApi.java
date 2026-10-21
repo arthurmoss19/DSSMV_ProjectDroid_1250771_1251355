@@ -1,19 +1,16 @@
 package api;
 
 import java.util.List;
+import java.util.Map;
+
+import api.dto.MediaUploadResponse;
+import model.*;
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 
-import model.Category;
-import model.Trip;
-import model.User;
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.DELETE;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
+import retrofit2.http.*;
+
 public interface RestDbApi {
 
     @GET("rest/users")
@@ -42,6 +39,34 @@ public interface RestDbApi {
 
     @POST("rest/categories")
     Call<List<Category>> createCategories(@Body List<Category> categories);
+
+    @GET("rest/places")
+    Call<List<Place>> getPlaces(@Query("q") String query, @Query("h") String hints);
+
+    @GET("rest/places/{id}")
+    Call<Place> getPlace(@Path("id") String id);
+
+    @POST("rest/places")
+    Call<Place> createPlace(@Body Place place);
+
+    @PATCH("rest/places/{id}")
+    Call<Place> updatePlace(@Path("id") String id, @Body Map<String, Object> fields);
+
+    @DELETE("rest/places/{id}")
+    Call<ResponseBody> deletePlace(@Path("id") String id);
+
+    @GET("rest/photos")
+    Call<List<Photo>> getPhotos(@Query("q") String query, @Query("h") String hints);
+
+    @POST("rest/photos")
+    Call<Photo> createPhoto(@Body Photo photo);
+
+    @DELETE("rest/photos/{id}")
+    Call<ResponseBody> deletePhoto(@Path("id") String id);
+
+    @Multipart
+    @POST("media")
+    Call<MediaUploadResponse> uploadMedia(@Part MultipartBody.Part file);
 }
 
 
