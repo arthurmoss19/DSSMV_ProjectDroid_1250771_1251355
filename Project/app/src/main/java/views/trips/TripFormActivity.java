@@ -1,4 +1,4 @@
-package views;
+package views.trips;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;

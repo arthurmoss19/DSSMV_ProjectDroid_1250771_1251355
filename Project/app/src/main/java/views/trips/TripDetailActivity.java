@@ -1,4 +1,4 @@
-package views;
+package views.trips;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -16,9 +15,7 @@ import com.triptrail.R;
 import api.ApiCallback;
 import model.Trip;
 import controllers.TripController;
-import util.DateUtils;
 import util.Extras;
-import util.UiUtils;
 
 public class TripDetailActivity extends AppCompatActivity {
     private MaterialToolbar toolbar;

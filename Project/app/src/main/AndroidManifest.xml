@@ -16,7 +16,7 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.TripTrail">
         <activity
-                android:name="views.LoginActivity"
+                android:name="views.login.LoginActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -24,10 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="views.RegisterActivity" android:exported="false"/>
-        <activity android:name="views.TripListActivity" android:exported="false"/>
-        <activity android:name="views.TripDetailActivity" android:exported="false"/>
-        <activity android:name="views.TripFormActivity" android:exported="false"/>
+        <activity android:name="views.login.RegisterActivity" android:exported="false"/>
+        <activity android:name="views.trips.TripListActivity" android:exported="false"/>
+        <activity android:name="views.trips.TripDetailActivity" android:exported="false"/>
+        <activity android:name="views.trips.TripFormActivity" android:exported="false"/>
     </application>
 
 </manifest>
