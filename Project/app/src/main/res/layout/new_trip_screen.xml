@@ -35,7 +35,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/trips_label_title"
-                        app:helperText="@string/trips_hint_title">
+                        app:helperText="">
 
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editTripTitle"
@@ -52,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_medium"
                         android:hint="@string/trips_label_description"
-                        app:helperText="@string/trips_hint_description">
+                        app:helperText="">
 
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editTripDescription"

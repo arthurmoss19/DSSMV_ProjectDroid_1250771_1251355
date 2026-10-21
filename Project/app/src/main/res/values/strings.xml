@@ -3,7 +3,6 @@
 <resources>
 
     <string name="app_name">TripTrail</string>
-    <string name="app_tagline">Diário de viagens</string>
 
     <string name="action_save">Guardar</string>
     <string name="action_back">Voltar</string>
@@ -30,9 +29,7 @@
     <string name="trips_empty">Ainda não tem viagens. Toque em Nova viagem para criar.</string>
     <string name="trips_new_title">Nova viagem</string>
     <string name="trips_label_title">Título</string>
-    <string name="trips_hint_title">Ex.: Porto - Algarve</string>
     <string name="trips_label_description">Descrição</string>
-    <string name="trips_hint_description">O que pretende visitar…</string>
     <string name="trips_label_start_date">Data de início</string>
     <string name="trips_label_end_date">Data de fim</string>
     <string name="trips_cd_trip_icon">Ícone da viagem</string>
@@ -49,7 +46,6 @@
     <string name="place_form_section_location">Posição</string>
     <string name="place_form_coordinates_empty">Sem coordenadas</string>
     <string name="place_form_get_location">Obter posição GPS</string>
-    <string name="place_form_manual_hint">Se não tiveres GPS, podes escrever.</string>
     <string name="place_form_latitude">Latitude</string>
     <string name="place_form_longitude">Longitude</string>
     <string name="place_form_section_apis">Morada e país</string>

@@ -36,23 +36,8 @@
                 android:id="@+id/textLoginTagline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_tagline"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
                 android:textColor="@color/tt_on_surface_variant" />
-
-        <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_large"
-                app:cardBackgroundColor="@color/tt_surface"
-                app:cardCornerRadius="0dp"
-                app:cardElevation="@dimen/card_elevation">
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="332dp"
-                    android:orientation="vertical"
-                    android:padding="@dimen/spacing_medium">
 
                 <TextView
                         android:id="@+id/textLoginWelcome"
@@ -109,9 +94,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/login_action_register"/>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
         <ProgressBar
                 android:id="@+id/progressLogin"
                 style="?android:attr/progressBarStyle"

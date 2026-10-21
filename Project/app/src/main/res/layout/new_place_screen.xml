@@ -123,7 +123,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_small"
-                        android:text="@string/place_form_manual_hint"
                         android:textAppearance="?attr/textAppearanceBodySmall"
                         android:textColor="@color/tt_on_surface_variant" />
 
