@@ -1,4 +1,4 @@
-package views;
+package views.login;
 
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +14,6 @@ import com.triptrail.R;
 import api.ApiCallback;
 import model.User;
 import controllers.UserController;
-import util.PasswordUtils;
 import util.SessionManager;
 import util.UiUtils;
 

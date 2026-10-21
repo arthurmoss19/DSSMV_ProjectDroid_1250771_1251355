@@ -1,22 +1,20 @@
-package views;
+package views.login;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import com.triptrail.BuildConfig;
 import com.triptrail.R;
 import api.ApiCallback;
 import controllers.UserController;
 import model.User;
-import views.TripListActivity;
+import views.trips.TripListActivity;
 import util.SessionManager;
 import util.UiUtils;
 

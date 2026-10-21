@@ -1,4 +1,4 @@
-package views;
+package views.trips;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +25,7 @@ import model.Trip;
 import util.Extras;
 import util.SessionManager;
 import util.UiUtils;
+import views.login.LoginActivity;
 
 public class TripListActivity extends AppCompatActivity {
 
