@@ -64,6 +64,15 @@ public interface RestDbApi {
     @DELETE("rest/photos/{id}")
     Call<ResponseBody> deletePhoto(@Path("id") String id);
 
+    @GET("rest/members")
+    Call<List<TripMember>> getMembers(@Query("q") String query);
+
+    @POST("rest/members")
+    Call<TripMember> createMember(@Body TripMember member);
+
+    @DELETE("rest/members/{id}")
+    Call<ResponseBody> deleteMember(@Path("id") String id);
+
     @Multipart
     @POST("media")
     Call<MediaUploadResponse> uploadMedia(@Part MultipartBody.Part file);

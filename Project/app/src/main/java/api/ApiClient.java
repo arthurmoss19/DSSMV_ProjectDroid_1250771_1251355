@@ -14,7 +14,11 @@ public final class ApiClient {
 
     private static final Gson GSON = new GsonBuilder().create();
 
+    public static final String RESTDB_KEY_MISSING =
+            "Falta a chave do RestDB no local.properties.";
+
     private static RestDbApi restDbApi;
+    private static GeocodingApi geocodingApi;
 
     private ApiClient() {
     }
@@ -25,6 +29,13 @@ public final class ApiClient {
         }
         return restDbApi;
     }
+    public static synchronized GeocodingApi geocoding() {
+        if (geocodingApi == null) {
+            geocodingApi = build(BuildConfig.POSITIONSTACK_URL).create(GeocodingApi.class);
+        }
+        return geocodingApi;
+    }
+
     public static Gson gson() {
         return GSON;
     }
@@ -34,6 +45,7 @@ public final class ApiClient {
 
     public static synchronized void reset() {
         restDbApi = null;
+        geocodingApi = null;
     }
     private static Retrofit build(String baseUrl) {
         return new Retrofit.Builder()
