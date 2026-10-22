@@ -3,19 +3,15 @@ package views.trips;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.button.MaterialButton;
-
+import androidx.appcompat.widget.Toolbar;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
 import com.triptrail.R;
 import api.ApiCallback;
 import exceptions.InvalidDataException;
@@ -29,18 +25,15 @@ import util.UiUtils;
 public class TripFormActivity extends AppCompatActivity {
     private TripController tripController;
     private SessionManager session;
-
-    private MaterialToolbar toolbar;
+    private Toolbar toolbar;
     private EditText editTitle;
     private EditText editDescription;
     private EditText editStartDate;
     private EditText editEndDate;
-    private MaterialButton buttonSave;
+    private Button buttonSave;
     private ProgressBar progress;
-
     private String startDateIso;
     private String endDateIso;
-
     private Trip editingTrip;
 
     @Override
@@ -135,8 +128,6 @@ public class TripFormActivity extends AppCompatActivity {
                 calendar.get(Calendar.DAY_OF_MONTH));
         dialog.show();
     }
-
-
     private void save() {
         try {
             Trip target = editingTrip == null ? new Trip() : editingTrip.copy();
@@ -152,13 +143,26 @@ public class TripFormActivity extends AppCompatActivity {
             UiUtils.toast(this, e.what());
         }
     }
-
     private void submit(Trip target) {
         showLoading(true);
-    }
+        tripController.save(target, new ApiCallback<Trip>() {
+            @Override
+            public void onSuccess(Trip trip) {
+                showLoading(false);
+                setResult(RESULT_OK);
+                finish();
+            }
 
+            @Override
+            public void onError(String message) {
+                showLoading(false);
+                UiUtils.toast(TripFormActivity.this, message);
+            }
+        });
+    }
     private void showLoading(boolean loading) {
         progress.setVisibility(loading ? View.VISIBLE : View.GONE);
         buttonSave.setEnabled(!loading);
     }
 }
+
