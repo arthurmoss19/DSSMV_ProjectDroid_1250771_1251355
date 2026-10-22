@@ -55,27 +55,12 @@ public class GeocodingResponse {
             return country_code;
         }
 
-        public String toAddress() {
-            if (label != null && !label.isEmpty()) {
-                return label;
-            }
-            StringBuilder builder = new StringBuilder();
-            if (street != null) {
-                builder.append(street);
-            }
-            if (number != null) {
-                if (builder.length() > 0) {
-                    builder.append(", ");
-                }
-                builder.append(number);
-            }
-            if (locality != null) {
-                if (builder.length() > 0) {
-                    builder.append(", ");
-                }
-                builder.append(locality);
-            }
-            return builder.toString();
+        public String getStreet() {
+            return street;
+        }
+
+        public String getNumber() {
+            return number;
         }
     }
 

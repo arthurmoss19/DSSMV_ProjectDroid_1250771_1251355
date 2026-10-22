@@ -4,6 +4,7 @@ import com.triptrail.BuildConfig;
 import api.ApiCallback;
 import api.ApiClient;
 import api.dto.GeocodingResponse;
+import api.dto.Mapper;
 import model.Place;
 import util.GeoUtils;
 import retrofit2.Call;
@@ -24,9 +25,7 @@ public class EnrichmentRepository extends BaseRepository {
                 if (response != null && !response.hasError()) {
                     GeocodingResponse.Result result = response.first();
                     if (result != null) {
-                        place.setAddress(result.toAddress());
-                        place.setCountry(result.getCountry());
-                        place.setCountryCode(result.getCountryCode());
+                        Mapper.applyAddress(place, result);
                     }
                 }
                 callback.onSuccess(place);
