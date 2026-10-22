@@ -41,7 +41,6 @@ public class TripDetailActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         tabLayout = findViewById(R.id.tabLayout);
-        viewPager = findViewById(R.id.viewPager);
 
         toolbar.setNavigationOnClickListener(view -> finish());
         toolbar.setTitle(R.string.trip_detail_default_title);
