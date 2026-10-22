@@ -5,29 +5,300 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.google.android.material.appbar.MaterialToolbar
+    <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            style="@style/Widget.TripTrail.Toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@color/tt_primary"
             app:navigationIcon="@drawable/icon_back"
-            app:title="@string/trip_detail_default_title" />
+            app:title="@string/trip_detail_default_title"
+            app:titleTextColor="@android:color/white" />
 
     <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/tt_primary"
-            app:tabGravity="fill"
-            app:tabIndicatorColor="@color/tt_white"
+            app:tabIndicatorColor="@android:color/white"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/tt_white"
-            app:tabTextColor="@color/tt_primary_container" />
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabTextColor="@color/tt_primary_dark" />
 
-    <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
+    <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1">
 
+        <FrameLayout
+                android:id="@+id/sectionPlaces"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/tt_background">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="@dimen/margin">
+
+                <EditText
+                        android:id="@+id/editSearchPlaces"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/icon_search"
+                        android:drawablePadding="@dimen/margin_small"
+                        android:hint="@string/places_search_hint"
+                        android:imeOptions="actionSearch"
+                        android:inputType="textCapSentences"
+                        android:maxLines="1" />
+
+                <Spinner
+                        android:id="@+id/spinnerFilterCategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:minHeight="48dp"
+                        android:spinnerMode="dropdown" />
+
+                <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:layout_weight="1">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerPlaces"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clipToPadding="false"
+                            android:paddingBottom="72dp" />
+
+                    <TextView
+                            android:id="@+id/textPlacesEmpty"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:padding="@dimen/margin"
+                            android:text="@string/places_empty"
+                            android:textColor="@color/tt_text_light"
+                            android:textSize="16sp"
+                            android:visibility="gone" />
+
+                    <ProgressBar
+                            android:id="@+id/progressPlaces"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:visibility="gone" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <Button
+                    android:id="@+id/fabAddPlace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:layout_margin="@dimen/margin"
+                    android:backgroundTint="@color/tt_primary"
+                    android:drawableStart="@drawable/icon_add"
+                    android:text="@string/places_add"
+                    android:textColor="@android:color/white" />
+        </FrameLayout>
+
+        <FrameLayout
+                android:id="@+id/sectionMap"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/tt_background"
+                android:visibility="gone">
+
+            <org.osmdroid.views.MapView
+                    android:id="@+id/mapView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/map_content_description" />
+
+            <TextView
+                    android:id="@+id/textMapEmpty"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/tt_background"
+                    android:gravity="center"
+                    android:padding="@dimen/margin"
+                    android:text="@string/map_empty_message"
+                    android:textColor="@color/tt_text_light"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+        </FrameLayout>
+
+        <LinearLayout
+                android:id="@+id/sectionMembers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/tt_background"
+                android:orientation="vertical"
+                android:padding="@dimen/margin"
+                android:visibility="gone">
+
+            <EditText
+                    android:id="@+id/editInviteEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/members_invite_hint"
+                    android:imeOptions="actionDone"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1" />
+
+            <Button
+                    android:id="@+id/buttonInvite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:text="@string/members_invite" />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:text="@string/members_invite_help"
+                    android:textColor="@color/tt_text_light"
+                    android:textSize="12sp" />
+
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/margin"
+                    android:layout_weight="1">
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerMembers"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                <TextView
+                        android:id="@+id/textMembersEmpty"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:padding="@dimen/margin"
+                        android:text="@string/members_empty"
+                        android:textColor="@color/tt_text_light"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+
+                <ProgressBar
+                        android:id="@+id/progressMembers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <FrameLayout
+                android:id="@+id/sectionStats"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/tt_background"
+                android:visibility="gone">
+
+            <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/margin">
+
+                    <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:stretchColumns="0">
+
+                        <TableRow>
+
+                            <TextView
+                                    android:text="@string/stats_places"
+                                    android:textColor="@color/tt_text_light" />
+
+                            <TextView
+                                    android:id="@+id/textStatsPlaces"
+                                    android:textColor="@color/tt_primary"
+                                    android:textStyle="bold" />
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                    android:layout_marginTop="12dp"
+                                    android:text="@string/stats_countries"
+                                    android:textColor="@color/tt_text_light" />
+
+                            <TextView
+                                    android:id="@+id/textStatsCountries"
+                                    android:layout_marginTop="12dp"
+                                    android:textColor="@color/tt_primary"
+                                    android:textStyle="bold" />
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                    android:layout_marginTop="12dp"
+                                    android:text="@string/stats_distance"
+                                    android:textColor="@color/tt_text_light" />
+
+                            <TextView
+                                    android:id="@+id/textStatsDistance"
+                                    android:layout_marginTop="12dp"
+                                    android:textColor="@color/tt_primary"
+                                    android:textStyle="bold" />
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                    android:layout_marginTop="12dp"
+                                    android:text="@string/stats_rating"
+                                    android:textColor="@color/tt_text_light" />
+
+                            <TextView
+                                    android:id="@+id/textStatsRating"
+                                    android:layout_marginTop="12dp"
+                                    android:textColor="@color/tt_primary"
+                                    android:textStyle="bold" />
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                    android:layout_marginTop="12dp"
+                                    android:text="@string/stats_days"
+                                    android:textColor="@color/tt_text_light" />
+
+                            <TextView
+                                    android:id="@+id/textStatsDays"
+                                    android:layout_marginTop="12dp"
+                                    android:textColor="@color/tt_primary"
+                                    android:textStyle="bold" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TextView
+                            android:id="@+id/textStatsEmpty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin"
+                            android:gravity="center"
+                            android:text="@string/stats_empty"
+                            android:textColor="@color/tt_text_light"
+                            android:textSize="16sp"
+                            android:visibility="gone" />
+                </LinearLayout>
+            </ScrollView>
+        </FrameLayout>
+    </FrameLayout>
 </LinearLayout>

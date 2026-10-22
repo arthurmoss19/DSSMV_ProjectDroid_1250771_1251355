@@ -1,87 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                     xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                     android:layout_width="match_parent"
-                                                     android:layout_height="match_parent"
-                                                     android:background="@color/tt_background">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/tt_background"
+              android:orientation="vertical">
 
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/tt_primary"
+            app:title="@string/app_name"
+            app:titleTextColor="@android:color/white" />
 
-        <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                style="@style/Widget.TripTrail.Toolbar"
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefreshTrips"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:title="@string/app_name" />
+                android:layout_height="match_parent">
 
-        <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                    android:id="@+id/swipeRefreshTrips"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerTrips"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:clipToPadding="false"
-                        android:paddingBottom="88dp"
-                        android:scrollbars="vertical" />
-
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-            <LinearLayout
-                    android:id="@+id/textTripsEmpty"
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerTrips"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="@dimen/spacing_huge"
-                    android:visibility="gone">
+                    android:scrollbars="vertical" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-                <ImageView
-                        android:layout_width="72dp"
-                        android:layout_height="72dp"
-                        android:contentDescription="@null"
-                        android:src="@drawable/icon_empty"
-                        app:tint="@color/tt_outline" />
+        <LinearLayout
+                android:id="@+id/textTripsEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/margin"
+                android:visibility="gone">
 
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_medium"
-                        android:gravity="center"
-                        android:text="@string/trips_empty"
-                        android:textAppearance="?attr/textAppearanceBodyLarge"
-                        android:textColor="@color/tt_on_surface_variant" />
+            <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/icon_empty" />
 
-            </LinearLayout>
-
-            <ProgressBar
-                    android:id="@+id/progressTrips"
-                    android:layout_width="wrap_content"
+            <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:visibility="gone" />
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:gravity="center"
+                    android:text="@string/trips_empty"
+                    android:textColor="@color/tt_text_light"
+                    android:textSize="16sp" />
+        </LinearLayout>
 
-        </FrameLayout>
+        <ProgressBar
+                android:id="@+id/progressTrips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+    </FrameLayout>
 
-    </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+    <Button
             android:id="@+id/fabAddTrip"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/spacing_medium"
-            android:text="@string/trips_new"
-            app:icon="@drawable/icon_add" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+            android:layout_margin="@dimen/margin"
+            android:drawableStart="@drawable/icon_add"
+            android:text="@string/trips_new" />
+</LinearLayout>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/listItemRoot"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="?attr/selectableItemBackground"
+              android:clickable="true"
+              android:focusable="true"
+              android:gravity="center_vertical"
+              android:orientation="horizontal"
+              android:padding="@dimen/margin">
+
+    <ImageView
+            android:id="@+id/imageItem"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:contentDescription="@null"
+            android:visibility="gone"
+            app:tint="@color/tt_primary" />
+
+    <LinearLayout
+            android:id="@+id/textBlock"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/textItemTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/tt_text"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        <TextView
+                android:id="@+id/textItemSubtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/tt_text_light"
+                android:textSize="14sp" />
+
+        <TextView
+                android:id="@+id/textItemMeta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/tt_text_light"
+                android:textSize="12sp" />
+
+        <RatingBar
+                android:id="@+id/ratingItem"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:progressTint="@color/tt_accent"
+                android:rating="0"
+                android:stepSize="1"
+                android:visibility="gone" />
+    </LinearLayout>
+
+    <ImageButton
+            android:id="@+id/buttonItemAction"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/action_delete"
+            android:src="@drawable/icon_delete"
+            android:visibility="gone"
+            app:tint="@color/tt_error" />
+</LinearLayout>
