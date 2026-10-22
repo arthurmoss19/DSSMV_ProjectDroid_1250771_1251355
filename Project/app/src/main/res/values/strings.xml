@@ -7,7 +7,6 @@
     <string name="action_save">Guardar</string>
     <string name="action_back">Voltar</string>
     <string name="action_close">Fechar</string>
-    <string name="action_refresh">Atualizar dados</string>
 
     <string name="trips_menu_logout">Sair</string>
     <string name="place_detail_menu_edit">Editar</string>
@@ -34,6 +33,12 @@
     <string name="trips_label_end_date">Data de fim</string>
     <string name="trips_cd_trip_icon">Ícone da viagem</string>
     <string name="trip_detail_default_title">Viagem</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_delete">Apagar</string>
+    <string name="trips_delete_title">Apagar viagem</string>
+    <string name="trips_delete_message">Quer apagar a viagem \"%1$s\"? Esta ação não pode ser anulada.</string>
+    <string name="trips_delete_action">Apagar</string>
+    <string name="trips_edit_action">Editar</string>
 
     <string name="places_search_hint">Pesquisar local pelo nome</string>
     <string name="places_empty">Sem locais nesta viagem. Toque em "Novo local" para acrescentar o primeiro.</string>
@@ -48,9 +53,7 @@
     <string name="place_form_get_location">Obter posição GPS</string>
     <string name="place_form_latitude">Latitude</string>
     <string name="place_form_longitude">Longitude</string>
-    <string name="place_form_section_apis">Morada e país</string>
     <string name="place_form_address_empty">Utiliza o GPS para aparecer a morada.</string>
-    <string name="place_form_country_empty">Ainda sem informação do país.</string>
     <string name="place_form_section_photos">Fotografias</string>
     <string name="place_form_take_photo">Tirar fotografia</string>
     <string name="place_form_photos_none">Sem fotografias</string>
@@ -58,12 +61,6 @@
     <string name="place_detail_photos_title">Fotografias</string>
     <string name="place_detail_photos_add">Tirar fotografia</string>
     <string name="place_detail_photos_empty">Ainda não há fotografias deste local.</string>
-    <string name="place_detail_expenses">Despesas</string>
-    <string name="place_detail_expenses_empty">Ainda não há despesas neste local.</string>
-    <string name="place_detail_expenses_total">Total: %1$s</string>
-    <string name="place_detail_expense_description">Descrição</string>
-    <string name="place_detail_expense_amount">Valor</string>
-    <string name="place_detail_expense_add">Adicionar despesa</string>
 
     <string name="camera_capture">Tirar fotografia</string>
 
@@ -71,28 +68,31 @@
     <string name="members_invite">Convidar</string>
     <string name="members_invite_help">O convidado tem de ter conta no TripTrail. Pode consultar a viagem e acrescentar locais.</string>
     <string name="members_empty">Ainda não há participantes nesta viagem.</string>
-    <string name="members_remove_help">Toque num participante para o remover.</string>
 
     <string name="map_empty_message">Ainda não há locais nesta viagem.\nAcrescente locais no separador "Locais" para os ver aqui no mapa.</string>
-    <string name="map_hint_tap_marker">Toque num marcador para abrir o local</string>
     <string name="map_content_description">Mapa da viagem com os locais visitados</string>
 
     <string name="stats_places">Locais visitados</string>
     <string name="stats_countries">Países</string>
     <string name="stats_distance">Distância total</string>
     <string name="stats_rating">Avaliação média</string>
-    <string name="stats_expenses">Despesas totais</string>
+    <string name="stats_days">Dias de viagem</string>
     <string name="stats_empty">Acrescente locais à viagem para ver aqui as estatísticas.</string>
 
     <string name="cd_login_logo">Logótipo do TripTrail</string>
     <string name="cd_photo">Fotografia do local</string>
     <string name="cd_viewfinder">Pré-visualização da câmara</string>
 
-    <string name="place_rating_format">%1$d/5</string>
     <string name="place_no_address">Sem morada</string>
     <string name="members_role_owner">Proprietário</string>
     <string name="members_role_guest">Convidado</string>
     <string name="members_unknown">Utilizador desconhecido</string>
+    <string name="tab_places">Locais</string>
+    <string name="tab_map">Mapa</string>
+    <string name="tab_members">Participantes</string>
+    <string name="tab_stats">Estatísticas</string>
+    <string name="places_filter_all">Todas</string>
+    <string name="place_form_title_edit">Editar local</string>
     <plurals name="trips_duration">
         <item quantity="one">%1$d dia</item>
         <item quantity="many">%1$d dias</item>

@@ -1,34 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.TripTrail" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.TripTrail" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/tt_primary</item>
-        <item name="colorOnPrimary">@color/tt_white</item>
-        <item name="colorPrimaryContainer">@color/tt_primary_container</item>
-        <item name="colorOnPrimaryContainer">@color/tt_on_primary_container</item>
-        <item name="colorSecondary">@color/tt_secondary</item>
-        <item name="colorOnSecondary">@color/tt_white</item>
-        <item name="colorSecondaryContainer">@color/tt_secondary_container</item>
-        <item name="colorTertiary">@color/tt_tertiary</item>
+        <item name="colorPrimaryVariant">@color/tt_primary_dark</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorSecondary">@color/tt_accent</item>
+        <item name="colorSecondaryVariant">@color/tt_accent</item>
+        <item name="colorOnSecondary">@color/tt_text</item>
         <item name="colorError">@color/tt_error</item>
         <item name="android:colorBackground">@color/tt_background</item>
-        <item name="colorSurface">@color/tt_surface</item>
-        <item name="colorOnSurface">@color/tt_on_surface</item>
-        <item name="colorSurfaceVariant">@color/tt_surface_variant</item>
-        <item name="colorOnSurfaceVariant">@color/tt_on_surface_variant</item>
-        <item name="colorOutline">@color/tt_outline</item>
+        <item name="android:textColor">@color/tt_text</item>
         <item name="android:statusBarColor" tools:targetApi="m">@color/tt_primary_dark</item>
-    </style>
-
-    <style name="Widget.TripTrail.Toolbar" parent="Widget.Material3.Toolbar">
-        <item name="android:background">?attr/colorPrimary</item>
-        <item name="titleTextColor">@color/tt_white</item>
-        <item name="subtitleTextColor">@color/tt_primary_container</item>
-        <item name="navigationIconTint">@color/tt_white</item>
-    </style>
-
-    <style name="Widget.TripTrail.RatingBar" parent="Widget.AppCompat.RatingBar">
-        <item name="android:progressTint">@color/tt_rating</item>
-        <item name="android:progressBackgroundTint">@color/tt_outline</item>
     </style>
 </resources>
