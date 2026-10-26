@@ -29,6 +29,8 @@
         <activity android:name="views.trips.TripDetailActivity" android:exported="false"/>
         <activity android:name="views.trips.TripFormActivity" android:exported="false"/>
         <activity android:name="views.camera.CameraActivity" android:exported="false"/>
+        <activity android:name="views.places.PlaceFormActivity" android:exported="false"/>
+        <activity android:name="views.places.PlaceDetailActivity" android:exported="false"/>
     </application>
 
 </manifest>
