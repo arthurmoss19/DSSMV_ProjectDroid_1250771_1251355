@@ -9,6 +9,7 @@ import okhttp3.RequestBody;
 import com.triptrail.BuildConfig;
 import api.ApiCallback;
 import api.ApiClient;
+import api.dto.Mapper;
 import api.dto.MediaUploadResponse;
 import model.Photo;
 import util.DateUtils;
@@ -16,8 +17,7 @@ import retrofit2.Call;
 
 public class PhotoRepository extends BaseRepository {
     public void getPhotos(String placeId, ApiCallback<List<Photo>> callback) {
-        Call<List<Photo>> call = ApiClient.restDb()
-                .getPhotos(filter("placeId", placeId), orderBy("takenAt", false));
+        Call<List<Photo>> call = ApiClient.restDb().getPhotos(filter("placeId", placeId), orderBy("takenAt", false));
         enqueue(call, callback);
     }
 
@@ -48,9 +48,8 @@ public class PhotoRepository extends BaseRepository {
         });
     }
 
-    private void createPhotoRecord(String placeId, String mediaId, String caption,
-                                   ApiCallback<Photo> callback) {
-        Photo photo = new Photo(placeId, mediaId, caption, DateUtils.now());
+    private void createPhotoRecord(String placeId, String mediaId, String caption, ApiCallback<Photo> callback) {
+        Photo photo = Mapper.toPhoto(placeId, mediaId, caption, DateUtils.now());
         Call<Photo> call = ApiClient.restDb().createPhoto(photo);
         enqueue(call, callback);
     }
@@ -102,9 +101,8 @@ public class PhotoRepository extends BaseRepository {
         if (mediaId.startsWith("http://") || mediaId.startsWith("https://")) {
             return mediaId;
         }
-        String base = BuildConfig.RESTDB_URL.endsWith("/")
-                ? BuildConfig.RESTDB_URL
-                : BuildConfig.RESTDB_URL + "/";
+        String base = BuildConfig.RESTDB_URL.endsWith("/") ? BuildConfig.RESTDB_URL : BuildConfig.RESTDB_URL + "/";
+
         return base + "media/" + mediaId + "?s=w&apikey=" + BuildConfig.RESTDB_KEY;
     }
 }
