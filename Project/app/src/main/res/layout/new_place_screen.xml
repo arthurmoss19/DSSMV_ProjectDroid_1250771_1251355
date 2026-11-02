@@ -64,7 +64,6 @@
             <TextView
                     android:id="@+id/textPlaceCoordinates"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:text="@string/place_form_coordinates_empty"
                     android:textColor="@color/tt_text" android:textSize="16sp" />
 
             <Button
@@ -129,7 +128,6 @@
             <TextView
                     android:id="@+id/textPhotoCount"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:text="@string/place_form_photos_none"
                     android:textColor="@color/tt_text_light" android:textSize="12sp" />
 
             <ProgressBar

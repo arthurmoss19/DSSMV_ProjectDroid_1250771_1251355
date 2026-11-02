@@ -129,7 +129,6 @@ public class PlaceFormActivity extends AppCompatActivity {
         if (placeId == null || placeId.trim().isEmpty()) {
             toolbar.setTitle(R.string.place_form_title_new);
             rating.setRating(3);
-            textCoordinates.setText(R.string.place_form_coordinates_empty);
         } else {
             toolbar.setTitle(R.string.place_form_title_edit);
             loadPlace();

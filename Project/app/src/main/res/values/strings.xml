@@ -49,14 +49,12 @@
     <string name="place_form_category">Categoria</string>
     <string name="place_form_rating">Avaliação</string>
     <string name="place_form_section_location">Posição</string>
-    <string name="place_form_coordinates_empty">Sem coordenadas</string>
     <string name="place_form_get_location">Obter posição GPS</string>
     <string name="place_form_latitude">Latitude</string>
     <string name="place_form_longitude">Longitude</string>
     <string name="place_form_address_empty">Utiliza o GPS para aparecer a morada.</string>
     <string name="place_form_section_photos">Fotografias</string>
     <string name="place_form_take_photo">Tirar fotografia</string>
-    <string name="place_form_photos_none">Sem fotografias</string>
     <string name="place_detail_title">Local</string>
     <string name="place_detail_photos_title">Fotografias</string>
     <string name="place_detail_photos_add">Tirar fotografia</string>
