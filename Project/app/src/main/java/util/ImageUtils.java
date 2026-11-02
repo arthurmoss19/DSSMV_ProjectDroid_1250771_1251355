@@ -5,12 +5,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Environment;
+import android.net.Uri;
 
 import androidx.exifinterface.media.ExifInterface;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class ImageUtils {
     public static final long MAX_UPLOAD_BYTES = 1024L * 1024L;
@@ -126,5 +128,24 @@ public class ImageUtils {
 
     public static long sizeInKb(File file) {
         return file == null ? 0 : file.length() / 1024;
+    }
+
+    public static File fromUri(Context context, Uri uri) {
+        try (InputStream input = context.getContentResolver().openInputStream(uri)) {
+            if (input == null) {
+                return null;
+            }
+            File target = newPhotoFile(context);
+            try (FileOutputStream output = new FileOutputStream(target)) {
+                byte[] buffer = new byte[8192];
+                int read;
+                while ((read = input.read(buffer)) != -1) {
+                    output.write(buffer, 0, read);
+                }
+            }
+            return compress(target, MAX_DIMENSION, JPEG_QUALITY);
+        } catch (IOException | RuntimeException e) {
+            return null;
+        }
     }
 }

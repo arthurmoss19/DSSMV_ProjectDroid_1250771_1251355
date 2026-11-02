@@ -41,6 +41,12 @@ import util.PermissionHelper;
 import util.UiUtils;
 import views.camera.CameraActivity;
 
+import android.content.ActivityNotFoundException;
+import android.provider.MediaStore;
+import java.util.ArrayList;
+import util.ImageUtils;
+
+
 public class PlaceFormActivity extends AppCompatActivity {
 
     private final PlaceController placeController = new PlaceController();
@@ -65,17 +71,27 @@ public class PlaceFormActivity extends AppCompatActivity {
     private String placeId;
     private Place editingPlace;
     private String pendingCategoryId;
-    private String pendingPhotoPath;
+    private static final int MAX_PHOTOS = 3;
+
+    private final List<String> pendingPhotoPaths = new ArrayList<>();
+    private int existingPhotoCount = 0;
     private String enrichedAddress = "";
     private String enrichedCountry = "";
 
     private final ActivityResultLauncher<Intent> cameraLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    pendingPhotoPath = result.getData().getStringExtra(Extras.PHOTO_FILE);
-                    if (pendingPhotoPath != null) {
-                        textPhotoCount.setText("1 fotografia pronta a enviar.");
+                    String path = result.getData().getStringExtra(Extras.PHOTO_FILE);
+                    if (path != null) {
+                        addPendingPhoto(new File(path));
                     }
+                }
+            });
+
+    private final ActivityResultLauncher<Intent> galleryLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    addPendingPhoto(ImageUtils.fromUri(this, result.getData().getData()));
                 }
             });
 
@@ -120,6 +136,8 @@ public class PlaceFormActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(view -> finish());
         getLocation.setOnClickListener(view -> requestLocation());
         takePhoto.setOnClickListener(view -> cameraLauncher.launch(CameraActivity.intent(this)));
+        Button pickPhoto = findViewById(R.id.buttonPickPhoto);
+        pickPhoto.setOnClickListener(view -> openGallery());
         save.setOnClickListener(view -> save());
 
         categoryAdapter = new CategoryAdapter(this, CategoryController.defaults());
@@ -165,6 +183,7 @@ public class PlaceFormActivity extends AppCompatActivity {
                     return;
                 }
                 editingPlace = place;
+                loadPhotoCount();
                 editName.setText(place.getName());
                 rating.setRating((float) place.getRating());
                 editLatitude.setText(String.valueOf(place.getLatitude()));
@@ -286,7 +305,7 @@ public class PlaceFormActivity extends AppCompatActivity {
             ApiCallback<Place> callback = new ApiCallback<Place>() {
                 @Override
                 public void onSuccess(Place place) {
-                    uploadPendingPhoto(place);
+                    uploadPendingPhotos(place, 0);
                 }
 
                 @Override
@@ -305,22 +324,22 @@ public class PlaceFormActivity extends AppCompatActivity {
         }
     }
 
-    private void uploadPendingPhoto(Place place) {
-        if (pendingPhotoPath == null || place == null || !place.hasId()) {
+    private void uploadPendingPhotos(Place place, int index) {
+        if (place == null || !place.hasId() || index >= pendingPhotoPaths.size()) {
             finishWithResult();
             return;
         }
-        photoController.upload(new File(pendingPhotoPath), place.getId(), "",
+        photoController.upload(new File(pendingPhotoPaths.get(index)), place.getId(), "",
                 new ApiCallback<model.Photo>() {
                     @Override
                     public void onSuccess(model.Photo photo) {
-                        finishWithResult();
+                        uploadPendingPhotos(place, index + 1);
                     }
 
                     @Override
                     public void onError(String message) {
                         UiUtils.toast(PlaceFormActivity.this, message);
-                        finishWithResult();
+                        uploadPendingPhotos(place, index + 1);
                     }
                 });
     }
@@ -329,6 +348,52 @@ public class PlaceFormActivity extends AppCompatActivity {
         showLoading(false);
         setResult(RESULT_OK);
         finish();
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        try {
+            galleryLauncher.launch(intent);
+        } catch (ActivityNotFoundException e) {
+            UiUtils.toast(this, "Não foi encontrada uma aplicação de galeria.");
+        }
+    }
+
+    private void addPendingPhoto(File photo) {
+        if (photo == null) {
+            return;
+        }
+        if (existingPhotoCount + pendingPhotoPaths.size() >= MAX_PHOTOS) {
+            UiUtils.toast(this, getString(R.string.place_form_photos_limit));
+            return;
+        }
+        pendingPhotoPaths.add(photo.getAbsolutePath());
+        updatePhotoText();
+    }
+
+    private void updatePhotoText() {
+        int total = existingPhotoCount + pendingPhotoPaths.size();
+        if (total == 0) {
+            textPhotoCount.setText("");
+        } else {
+            textPhotoCount.setText(total + " de " + MAX_PHOTOS + " fotografias.");
+        }
+    }
+
+    private void loadPhotoCount() {
+        photoController.getPhotos(placeId, new ApiCallback<List<model.Photo>>() {
+            @Override
+            public void onSuccess(List<model.Photo> photos) {
+                existingPhotoCount = photos == null ? 0 : photos.size();
+                updatePhotoText();
+            }
+
+            @Override
+            public void onError(String message) {
+                updatePhotoText();
+            }
+        });
     }
 
     private double parse(EditText field) {

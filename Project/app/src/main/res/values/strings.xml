@@ -59,6 +59,8 @@
     <string name="place_detail_photos_title">Fotografias</string>
     <string name="place_detail_photos_add">Tirar fotografia</string>
     <string name="place_detail_photos_empty">Ainda não há fotografias deste local.</string>
+    <string name="place_form_pick_photo">Escolher da galeria</string>
+    <string name="place_form_photos_limit">Máximo de 3 fotografias por local.</string>
 
     <string name="camera_capture">Tirar fotografia</string>
 
