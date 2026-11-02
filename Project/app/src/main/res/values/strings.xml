@@ -41,7 +41,7 @@
     <string name="trips_edit_action">Editar</string>
 
     <string name="places_search_hint">Pesquisar local pelo nome</string>
-    <string name="places_empty">Sem locais nesta viagem. Toque em "Novo local" para acrescentar o primeiro.</string>
+    <string name="places_empty">Sem locais nesta viagem.</string>
     <string name="places_add">Novo local</string>
     <string name="place_form_title_new">Novo local</string>
     <string name="place_form_section_place">Local</string>
@@ -69,7 +69,7 @@
     <string name="members_invite_help">O convidado tem de ter conta no TripTrail. Pode consultar a viagem e acrescentar locais.</string>
     <string name="members_empty">Ainda não há participantes nesta viagem.</string>
 
-    <string name="map_empty_message">Ainda não há locais nesta viagem.\nAcrescente locais no separador "Locais" para os ver aqui no mapa.</string>
+    <string name="map_empty_message">Ainda não há locais nesta viagem.</string>
     <string name="map_content_description">Mapa da viagem com os locais visitados</string>
 
     <string name="stats_places">Locais visitados</string>
