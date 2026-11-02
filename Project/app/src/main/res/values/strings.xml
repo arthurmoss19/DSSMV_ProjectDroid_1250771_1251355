@@ -77,7 +77,6 @@
     <string name="stats_distance">Distância total</string>
     <string name="stats_rating">Avaliação média</string>
     <string name="stats_days">Dias de viagem</string>
-    <string name="stats_empty">Acrescente locais à viagem para ver aqui as estatísticas.</string>
 
     <string name="cd_login_logo">Logótipo do TripTrail</string>
     <string name="cd_photo">Fotografia do local</string>

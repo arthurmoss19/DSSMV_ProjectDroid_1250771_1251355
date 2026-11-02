@@ -21,6 +21,9 @@
             android:background="@color/tt_primary"
             app:tabIndicatorColor="@android:color/white"
             app:tabMode="fixed"
+            app:tabPaddingStart="0dp"
+            app:tabPaddingEnd="0dp"
+            app:tabTextAppearance="@style/Theme.TripTrail.TabText"
             app:tabSelectedTextColor="@android:color/white"
             app:tabTextColor="@color/tt_primary_dark" />
 
@@ -156,14 +159,6 @@
                     android:layout_marginTop="@dimen/margin_small"
                     android:text="@string/members_invite" />
 
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:text="@string/members_invite_help"
-                    android:textColor="@color/tt_text_light"
-                    android:textSize="12sp" />
-
             <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -293,7 +288,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin"
                             android:gravity="center"
-                            android:text="@string/stats_empty"
                             android:textColor="@color/tt_text_light"
                             android:textSize="16sp"
                             android:visibility="gone" />

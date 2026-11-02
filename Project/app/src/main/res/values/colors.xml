@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="tt_primary">#1565C0</color>
-    <color name="tt_primary_dark">#0D47A1</color>
+    <color name="tt_primary_dark">#CCFFFFFF</color>
     <color name="tt_accent">#F9A825</color>
     <color name="tt_background">#FFFFFF</color>
     <color name="tt_text">#212121</color>

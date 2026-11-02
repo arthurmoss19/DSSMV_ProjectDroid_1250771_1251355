@@ -54,7 +54,6 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
         }
         tripController = new TripController();
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setSubtitle(session.getUserName());
         toolbar.inflateMenu(R.menu.menu_trips_list);
         toolbar.setOnMenuItemClickListener(this::onMenuItemSelected);
         swipeRefresh = findViewById(R.id.swipeRefreshTrips);
