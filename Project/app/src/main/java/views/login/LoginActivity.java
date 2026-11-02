@@ -38,13 +38,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(this, RegisterActivity.class)));
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (SessionManager.getInstance(this).isLoggedIn()) {
-            goToTrips();
-        }
-    }
     private void bindViews() {
         editEmail = findViewById(R.id.editLoginEmail);
         editPassword = findViewById(R.id.editLoginPassword);
