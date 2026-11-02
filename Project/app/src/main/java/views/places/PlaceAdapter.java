@@ -45,7 +45,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceViewHol
         Place place = items.get(position);
         holder.image.setImageResource(R.drawable.icon_pin);
         holder.title.setText(place.getName());
-        holder.rating.setRating(place.getRating());
+        holder.rating.setRating((float) place.getRating());
 
         String address = place.getAddress();
         holder.subtitle.setText(address == null || address.trim().isEmpty()

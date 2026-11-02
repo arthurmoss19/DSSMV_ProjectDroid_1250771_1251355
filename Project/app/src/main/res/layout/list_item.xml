@@ -64,7 +64,7 @@
                 android:numStars="5"
                 android:progressTint="@color/tt_accent"
                 android:rating="0"
-                android:stepSize="1"
+                android:stepSize="0.5"
                 android:visibility="gone" />
     </LinearLayout>
 

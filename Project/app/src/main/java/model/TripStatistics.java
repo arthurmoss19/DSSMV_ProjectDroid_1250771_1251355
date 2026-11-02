@@ -17,7 +17,7 @@ public class TripStatistics {
         this.dayCount = trip == null ? 0 : trip.getDurationInDays();
 
         Set<String> countries = new HashSet<>();
-        int ratingSum = 0;
+        double ratingSum = 0;
         int ratingCount = 0;
         if (places != null) {
             for (Place place : places) {

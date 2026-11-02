@@ -11,7 +11,7 @@ public class Place {
     private String categoryId;
     private String name;
 
-    private int rating;
+    private double rating;
     private double latitude;
     private double longitude;
     private String address;
@@ -60,10 +60,10 @@ public class Place {
         }
         this.name = name.trim();
     }
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         if (rating < 1 || rating > 5) {
             throw new InvalidDataException("Place: rating = " + rating
                     + " (tem de estar entre 1 e 5)");

@@ -165,7 +165,7 @@ public class PlaceDetailActivity extends AppCompatActivity implements PhotoAdapt
                 place = data;
                 toolbar.setTitle(data.getName());
                 textName.setText(data.getName());
-                rating.setRating(data.getRating());
+                rating.setRating((float) data.getRating());
                 textAddress.setText(data.getAddress().isEmpty()
                         ? getString(R.string.place_no_address)
                         : data.getAddress());
