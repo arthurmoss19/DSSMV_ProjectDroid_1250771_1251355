@@ -1,9 +1,11 @@
 package views.places;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Gravity;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -60,7 +62,22 @@ public class CategoryAdapter extends BaseAdapter {
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        return row(position, convertView, parent);
+        LinearLayout row = new LinearLayout(context);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        row.setPadding(dp(16), dp(16), dp(16), dp(16));
+        ImageView icon = new ImageView(context);
+        LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams(dp(24), dp(24));
+        iconParams.setMarginEnd(dp(16));
+        icon.setLayoutParams(iconParams);
+        icon.setImageResource(iconFor(getItem(position).getIcon()));
+        icon.setImageTintList(ColorStateList.valueOf(context.getColor(R.color.tt_primary)));
+        TextView name = new TextView(context);
+        name.setText(getItem(position).getName());
+        name.setTextSize(16);
+        row.addView(icon);
+        row.addView(name);
+        return row;
     }
     private View row(int position, View convertView, ViewGroup parent) {
         View view = convertView;
