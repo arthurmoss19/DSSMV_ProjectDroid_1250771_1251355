@@ -46,6 +46,9 @@ import android.provider.MediaStore;
 import java.util.ArrayList;
 import util.ImageUtils;
 
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import com.bumptech.glide.Glide;
 
 public class PlaceFormActivity extends AppCompatActivity {
 
@@ -62,6 +65,8 @@ public class PlaceFormActivity extends AppCompatActivity {
     private EditText editLatitude;
     private EditText editLongitude;
     private TextView textPhotoCount;
+
+    private LinearLayout photoPreviews;
     private ProgressBar progress;
 
     private CategoryAdapter categoryAdapter;
@@ -127,6 +132,7 @@ public class PlaceFormActivity extends AppCompatActivity {
         editLatitude = findViewById(R.id.editLatitude);
         editLongitude = findViewById(R.id.editLongitude);
         textPhotoCount = findViewById(R.id.textPhotoCount);
+        photoPreviews = findViewById(R.id.photoPreviews);
         progress = findViewById(R.id.progressPlaceForm);
 
         Button getLocation = findViewById(R.id.buttonGetLocation);
@@ -370,6 +376,7 @@ public class PlaceFormActivity extends AppCompatActivity {
         }
         pendingPhotoPaths.add(photo.getAbsolutePath());
         updatePhotoText();
+        refreshPhotoPreviews();
     }
 
     private void updatePhotoText() {
@@ -379,6 +386,24 @@ public class PlaceFormActivity extends AppCompatActivity {
         } else {
             textPhotoCount.setText(total + " de " + MAX_PHOTOS + " fotografias.");
         }
+    }
+
+    private void refreshPhotoPreviews() {
+        photoPreviews.removeAllViews();
+        for (String path : pendingPhotoPaths) {
+            ImageView image = new ImageView(this);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(80), dp(80));
+            params.setMarginEnd(dp(8));
+            image.setLayoutParams(params);
+            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            image.setContentDescription(getString(R.string.cd_photo));
+            Glide.with(this).load(new File(path)).centerCrop().into(image);
+            photoPreviews.addView(image);
+        }
+    }
+
+    private int dp(int value) {
+        return Math.round(value * getResources().getDisplayMetrics().density);
     }
 
     private void loadPhotoCount() {
