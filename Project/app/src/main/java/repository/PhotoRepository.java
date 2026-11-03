@@ -9,8 +9,8 @@ import okhttp3.RequestBody;
 import com.triptrail.BuildConfig;
 import api.ApiCallback;
 import api.ApiClient;
+import api.dto.ImgBbResponse;
 import api.dto.Mapper;
-import api.dto.MediaUploadResponse;
 import model.Photo;
 import util.DateUtils;
 import retrofit2.Call;
@@ -26,19 +26,24 @@ public class PhotoRepository extends BaseRepository {
             callback.onError("Não foi possível ler o ficheiro da fotografia.");
             return;
         }
+        if (ApiClient.isKeyMissing(BuildConfig.IMGBB_KEY)) {
+            callback.onError("Falta a chave do imgbb no local.properties.");
+            return;
+        }
 
         RequestBody body = RequestBody.create(file, MediaType.get("image/jpeg"));
-        MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getName(), body);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("image", file.getName(), body);
 
-        Call<MediaUploadResponse> call = ApiClient.restDb().uploadMedia(part);
-        enqueue(call, new ApiCallback<MediaUploadResponse>() {
+        Call<ImgBbResponse> call = ApiClient.imgBb().upload(BuildConfig.IMGBB_KEY, part);
+        enqueue(call, new ApiCallback<ImgBbResponse>() {
             @Override
-            public void onSuccess(MediaUploadResponse response) {
-                if (response == null || response.getId() == null) {
-                    callback.onError("O servidor não devolveu o identificador da fotografia.");
+            public void onSuccess(ImgBbResponse response) {
+                if (response == null || !response.success
+                        || response.data == null || response.data.url == null) {
+                    callback.onError("O serviço de imagens não devolveu o URL da fotografia.");
                     return;
                 }
-                createPhotoRecord(placeId, response.getId(), caption, callback);
+                createPhotoRecord(placeId, response.data.url, caption, callback);
             }
 
             @Override

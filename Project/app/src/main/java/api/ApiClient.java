@@ -18,6 +18,7 @@ public final class ApiClient {
             "Falta a chave do RestDB no local.properties.";
 
     private static RestDbApi restDbApi;
+    private static ImgBbApi imgBbApi;
     private static GeocodingApi geocodingApi;
 
     private ApiClient() {
@@ -29,6 +30,14 @@ public final class ApiClient {
         }
         return restDbApi;
     }
+
+    public static synchronized ImgBbApi imgBb() {
+        if (imgBbApi == null) {
+            imgBbApi = build("https://api.imgbb.com/").create(ImgBbApi.class);
+        }
+        return imgBbApi;
+    }
+
     public static synchronized GeocodingApi geocoding() {
         if (geocodingApi == null) {
             geocodingApi = build(BuildConfig.POSITIONSTACK_URL).create(GeocodingApi.class);
@@ -46,6 +55,7 @@ public final class ApiClient {
     public static synchronized void reset() {
         restDbApi = null;
         geocodingApi = null;
+        imgBbApi = null;
     }
     private static Retrofit build(String baseUrl) {
         return new Retrofit.Builder()
