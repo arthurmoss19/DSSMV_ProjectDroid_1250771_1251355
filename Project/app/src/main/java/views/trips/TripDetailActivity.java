@@ -298,6 +298,7 @@ public class TripDetailActivity extends AppCompatActivity
                 categories.clear();
                 if (data != null) {
                     categories.addAll(data);
+                    placeAdapter.setCategories(categories);
                 }
                 List<String> names = new ArrayList<>();
                 names.add(getString(R.string.places_filter_all));

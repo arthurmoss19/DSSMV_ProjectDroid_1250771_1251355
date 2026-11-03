@@ -13,6 +13,10 @@ import com.triptrail.R;
 import java.util.ArrayList;
 import java.util.List;
 import model.Place;
+import java.util.HashMap;
+import java.util.Map;
+import model.Category;
+
 public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceViewHolder> {
     public interface Listener {
         void onPlaceClick(Place place);
@@ -23,9 +27,24 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceViewHol
 
     private final Listener listener;
 
+    private final Map<String, Integer> categoryIcons = new HashMap<>();
+
     public PlaceAdapter(Listener listener) {
         this.listener = listener;
     }
+
+    public void setCategories(List<Category> categories) {
+        categoryIcons.clear();
+        if (categories != null) {
+            for (Category category : categories) {
+                if (category.getId() != null) {
+                    categoryIcons.put(category.getId(),
+                            CategoryAdapter.iconFor(category.getIcon()));
+                }
+            }
+        }
+    }
+
     public void submitList(List<Place> places) {
         items.clear();
         if (places != null) {
@@ -43,7 +62,9 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceViewHol
     @Override
     public void onBindViewHolder(@NonNull PlaceViewHolder holder, int position) {
         Place place = items.get(position);
-        holder.image.setImageResource(R.drawable.icon_pin);
+        Integer icon = categoryIcons.get(place.getCategoryId());
+        holder.image.setImageResource(icon == null
+                ? R.drawable.icon_category_other : icon);
         holder.title.setText(place.getName());
         holder.rating.setRating((float) place.getRating());
 
