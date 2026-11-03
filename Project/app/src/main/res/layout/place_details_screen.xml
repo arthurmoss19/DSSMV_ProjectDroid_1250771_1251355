@@ -88,17 +88,6 @@
                     android:layout_marginTop="@dimen/margin_small"
                     android:text="@string/place_detail_photos_empty"
                     android:textColor="@color/tt_text_light" android:textSize="12sp" />
-
-            <Button
-                    android:id="@+id/buttonTakePhoto"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin" android:text="@string/place_detail_photos_add" />
-
-            <Button
-                    android:id="@+id/buttonPickGallery"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:text="@string/place_detail_photos_gallery" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

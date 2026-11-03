@@ -61,11 +61,6 @@
                     android:text="@string/place_form_section_location"
                     android:textColor="@color/tt_primary" android:textSize="16sp" android:textStyle="bold" />
 
-            <TextView
-                    android:id="@+id/textPlaceCoordinates"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:textColor="@color/tt_text" android:textSize="16sp" />
-
             <Button
                     android:id="@+id/buttonGetLocation"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"

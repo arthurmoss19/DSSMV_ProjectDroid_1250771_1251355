@@ -36,7 +36,6 @@ import model.Category;
 import model.Place;
 import util.DateUtils;
 import util.Extras;
-import util.GeoUtils;
 import util.PermissionHelper;
 import util.UiUtils;
 import views.camera.CameraActivity;
@@ -49,6 +48,12 @@ import util.ImageUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.bumptech.glide.Glide;
+import android.app.AlertDialog;
+import android.view.Gravity;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.content.res.ColorStateList;
 
 public class PlaceFormActivity extends AppCompatActivity {
 
@@ -60,7 +65,6 @@ public class PlaceFormActivity extends AppCompatActivity {
     private EditText editName;
     private Spinner spinnerCategory;
     private RatingBar rating;
-    private TextView textCoordinates;
     private TextView textAddress;
     private EditText editLatitude;
     private EditText editLongitude;
@@ -79,6 +83,7 @@ public class PlaceFormActivity extends AppCompatActivity {
     private static final int MAX_PHOTOS = 3;
 
     private final List<String> pendingPhotoPaths = new ArrayList<>();
+    private final List<model.Photo> existingPhotos = new ArrayList<>();
     private int existingPhotoCount = 0;
     private String enrichedAddress = "";
     private String enrichedCountry = "";
@@ -127,7 +132,6 @@ public class PlaceFormActivity extends AppCompatActivity {
         editName = findViewById(R.id.editPlaceName);
         spinnerCategory = findViewById(R.id.spinnerPlaceCategory);
         rating = findViewById(R.id.ratingPlace);
-        textCoordinates = findViewById(R.id.textPlaceCoordinates);
         textAddress = findViewById(R.id.textPlaceAddress);
         editLatitude = findViewById(R.id.editLatitude);
         editLongitude = findViewById(R.id.editLongitude);
@@ -194,8 +198,6 @@ public class PlaceFormActivity extends AppCompatActivity {
                 rating.setRating((float) place.getRating());
                 editLatitude.setText(String.valueOf(place.getLatitude()));
                 editLongitude.setText(String.valueOf(place.getLongitude()));
-                textCoordinates.setText(GeoUtils.formatCoordinates(
-                        place.getLatitude(), place.getLongitude()));
                 enrichedAddress = place.getAddress();
                 enrichedCountry = place.getCountry();
                 showAddress();
@@ -234,8 +236,6 @@ public class PlaceFormActivity extends AppCompatActivity {
                     }
                     editLatitude.setText(String.valueOf(location.getLatitude()));
                     editLongitude.setText(String.valueOf(location.getLongitude()));
-                    textCoordinates.setText(GeoUtils.formatCoordinates(
-                            location.getLatitude(), location.getLongitude()));
                     enrich(location.getLatitude(), location.getLongitude());
                 })
                 .addOnFailureListener(error -> {
@@ -390,16 +390,68 @@ public class PlaceFormActivity extends AppCompatActivity {
 
     private void refreshPhotoPreviews() {
         photoPreviews.removeAllViews();
-        for (String path : pendingPhotoPaths) {
-            ImageView image = new ImageView(this);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(80), dp(80));
-            params.setMarginEnd(dp(8));
-            image.setLayoutParams(params);
-            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            image.setContentDescription(getString(R.string.cd_photo));
-            Glide.with(this).load(new File(path)).centerCrop().into(image);
-            photoPreviews.addView(image);
+        for (model.Photo photo : existingPhotos) {
+            photoPreviews.addView(preview(PhotoController.mediaUrl(photo),
+                    () -> confirmDeleteExistingPhoto(photo)));
         }
+        for (int i = 0; i < pendingPhotoPaths.size(); i++) {
+            final int index = i;
+            photoPreviews.addView(preview(new File(pendingPhotoPaths.get(index)), () -> {
+                pendingPhotoPaths.remove(index);
+                updatePhotoText();
+                refreshPhotoPreviews();
+            }));
+        }
+    }
+
+    private View preview(Object source, Runnable onDelete) {
+        FrameLayout box = new FrameLayout(this);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(80), dp(80));
+        params.setMarginEnd(dp(8));
+        box.setLayoutParams(params);
+
+        ImageView image = new ImageView(this);
+        image.setLayoutParams(new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        image.setContentDescription(getString(R.string.cd_photo));
+        Glide.with(this).load(source).centerCrop().into(image);
+        box.addView(image);
+
+        ImageView delete = new ImageView(this);
+        FrameLayout.LayoutParams deleteParams = new FrameLayout.LayoutParams(dp(24), dp(24));
+        deleteParams.gravity = Gravity.TOP | Gravity.END;
+        delete.setLayoutParams(deleteParams);
+        delete.setImageResource(R.drawable.icon_delete);
+        delete.setImageTintList(ColorStateList.valueOf(getColor(R.color.tt_error)));
+        delete.setContentDescription(getString(R.string.action_delete));
+        delete.setOnClickListener(view -> onDelete.run());
+        box.addView(delete);
+
+        return box;
+    }
+
+    private void confirmDeleteExistingPhoto(model.Photo photo) {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.action_delete)
+                .setMessage("Quer apagar esta fotografia?")
+                .setNegativeButton(R.string.action_cancel, null)
+                .setPositiveButton(R.string.action_delete, (dialog, which) ->
+                        photoController.delete(photo.getId(), new ApiCallback<Void>() {
+                            @Override
+                            public void onSuccess(Void data) {
+                                existingPhotos.remove(photo);
+                                existingPhotoCount = existingPhotos.size();
+                                updatePhotoText();
+                                refreshPhotoPreviews();
+                            }
+
+                            @Override
+                            public void onError(String message) {
+                                UiUtils.toast(PlaceFormActivity.this, message);
+                            }
+                        }))
+                .show();
     }
 
     private int dp(int value) {
@@ -410,8 +462,13 @@ public class PlaceFormActivity extends AppCompatActivity {
         photoController.getPhotos(placeId, new ApiCallback<List<model.Photo>>() {
             @Override
             public void onSuccess(List<model.Photo> photos) {
-                existingPhotoCount = photos == null ? 0 : photos.size();
+                existingPhotos.clear();
+                if (photos != null) {
+                    existingPhotos.addAll(photos);
+                }
+                existingPhotoCount = existingPhotos.size();
                 updatePhotoText();
+                refreshPhotoPreviews();
             }
 
             @Override

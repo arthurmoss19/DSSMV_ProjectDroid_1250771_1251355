@@ -3,14 +3,13 @@ package views.places;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
@@ -18,13 +17,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+
 import java.util.List;
+
 import com.triptrail.R;
 import api.ApiCallback;
 import controllers.CategoryController;
@@ -35,9 +32,8 @@ import model.Photo;
 import model.Place;
 import util.Extras;
 import util.UiUtils;
-import views.camera.CameraActivity;
 
-public class PlaceDetailActivity extends AppCompatActivity implements PhotoAdapter.Listener {
+public class PlaceDetailActivity extends AppCompatActivity {
     private final PlaceController placeController = new PlaceController();
     private final PhotoController photoController = new PhotoController();
     private final CategoryController categoryController = new CategoryController();
@@ -59,23 +55,6 @@ public class PlaceDetailActivity extends AppCompatActivity implements PhotoAdapt
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK) {
                     loadPlace();
-                }
-            });
-
-    private final ActivityResultLauncher<Intent> cameraLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    String path = result.getData().getStringExtra(Extras.PHOTO_FILE);
-                    if (path != null) {
-                        uploadPhoto(path);
-                    }
-                }
-            });
-
-    private final ActivityResultLauncher<String> galleryLauncher =
-            registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> {
-                if (uri != null) {
-                    importFromGallery(uri);
                 }
             });
 
@@ -106,21 +85,15 @@ public class PlaceDetailActivity extends AppCompatActivity implements PhotoAdapt
         textPhotosEmpty = findViewById(R.id.textPhotosEmpty);
         rating = findViewById(R.id.ratingPlace);
         RecyclerView recyclerPhotos = findViewById(R.id.recyclerPhotos);
-        Button takePhoto = findViewById(R.id.buttonTakePhoto);
-        Button pickGallery = findViewById(R.id.buttonPickGallery);
 
         toolbar.setNavigationOnClickListener(view -> finish());
         toolbar.inflateMenu(R.menu.menu_place_details);
         toolbar.setOnMenuItemClickListener(this::onMenuItemSelected);
 
-        photoAdapter = new PhotoAdapter(this);
+        photoAdapter = new PhotoAdapter();
         recyclerPhotos.setLayoutManager(
                 new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerPhotos.setAdapter(photoAdapter);
-
-        takePhoto.setOnClickListener(view ->
-                cameraLauncher.launch(CameraActivity.intent(this)));
-        pickGallery.setOnClickListener(view -> galleryLauncher.launch("image/*"));
 
         loadCategories();
         loadPlace();
@@ -222,67 +195,12 @@ public class PlaceDetailActivity extends AppCompatActivity implements PhotoAdapt
                             .into(imagePlacePhoto);
                 }
             }
-            @Override
-            public void onError(String message) {
-                UiUtils.toast(PlaceDetailActivity.this, message);
-            }
-        });
-    }
-
-    private void importFromGallery(Uri uri) {
-        new Thread(() -> {
-            File out = new File(getCacheDir(), "gallery_" + System.currentTimeMillis() + ".jpg");
-            try (InputStream in = getContentResolver().openInputStream(uri);
-                 OutputStream os = new FileOutputStream(out)) {
-                if (in == null) {
-                    throw new IOException("stream nulo");
-                }
-                byte[] buffer = new byte[8192];
-                int read;
-                while ((read = in.read(buffer)) != -1) {
-                    os.write(buffer, 0, read);
-                }
-                runOnUiThread(() -> uploadPhoto(out.getAbsolutePath()));
-            } catch (IOException e) {
-                runOnUiThread(() ->
-                        UiUtils.toast(this, "Não foi possível ler a fotografia escolhida."));
-            }
-        }).start();
-    }
-
-    private void uploadPhoto(String path) {
-        photoController.upload(new File(path), placeId, "", new ApiCallback<Photo>() {
-            @Override
-            public void onSuccess(Photo data) {
-                loadPhotos();
-            }
 
             @Override
             public void onError(String message) {
                 UiUtils.toast(PlaceDetailActivity.this, message);
             }
         });
-    }
-
-    @Override
-    public void onDeletePhoto(Photo photo) {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.action_delete)
-                .setMessage("Quer apagar esta fotografia?")
-                .setNegativeButton(R.string.action_cancel, null)
-                .setPositiveButton(R.string.action_delete, (dialog, which) ->
-                        photoController.delete(photo.getId(), new ApiCallback<Void>() {
-                            @Override
-                            public void onSuccess(Void data) {
-                                loadPhotos();
-                            }
-
-                            @Override
-                            public void onError(String message) {
-                                UiUtils.toast(PlaceDetailActivity.this, message);
-                            }
-                        }))
-                .show();
     }
 
     private void confirmDeletePlace() {
