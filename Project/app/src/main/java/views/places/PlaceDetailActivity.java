@@ -33,7 +33,6 @@ import model.Category;
 import model.Photo;
 import model.Place;
 import util.Extras;
-import util.GeoUtils;
 import util.UiUtils;
 import views.camera.CameraActivity;
 
@@ -49,7 +48,6 @@ public class PlaceDetailActivity extends AppCompatActivity implements PhotoAdapt
     private TextView textCategory;
     private TextView textAddress;
     private TextView textCountry;
-    private TextView textCoordinates;
     private TextView textPhotosEmpty;
     private RatingBar rating;
     private PhotoAdapter photoAdapter;
@@ -98,7 +96,6 @@ public class PlaceDetailActivity extends AppCompatActivity implements PhotoAdapt
         textCategory = findViewById(R.id.textPlaceCategory);
         textAddress = findViewById(R.id.textPlaceAddress);
         textCountry = findViewById(R.id.textPlaceCountry);
-        textCoordinates = findViewById(R.id.textPlaceCoordinates);
         textPhotosEmpty = findViewById(R.id.textPhotosEmpty);
         rating = findViewById(R.id.ratingPlace);
         RecyclerView recyclerPhotos = findViewById(R.id.recyclerPhotos);
@@ -170,8 +167,6 @@ public class PlaceDetailActivity extends AppCompatActivity implements PhotoAdapt
                         ? getString(R.string.place_no_address)
                         : data.getAddress());
                 textCountry.setText(data.getCountry());
-                textCoordinates.setText(GeoUtils.formatCoordinates(
-                        data.getLatitude(), data.getLongitude()));
                 showCategory();
                 loadPhotos();
             }
