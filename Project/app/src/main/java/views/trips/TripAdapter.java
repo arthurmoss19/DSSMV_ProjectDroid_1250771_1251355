@@ -55,10 +55,13 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
                 .getQuantityString(R.plurals.trips_duration, days, days);
         String description = trip.getDescription();
         if (description == null || description.trim().isEmpty()) {
-            holder.meta.setText(duration);
+            holder.meta.setVisibility(View.GONE);
         } else {
-            holder.meta.setText(description + " · " + duration);
+            holder.meta.setVisibility(View.VISIBLE);
+            holder.meta.setText(description);
         }
+        holder.duration.setText(duration);
+
 
         holder.itemView.setOnClickListener(view -> {
             if (listener != null) {
@@ -82,12 +85,14 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
         final TextView title;
         final TextView subtitle;
         final TextView meta;
+        final TextView duration;
         TripViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.imageItem);
             title = itemView.findViewById(R.id.textItemTitle);
             subtitle = itemView.findViewById(R.id.textItemSubtitle);
             meta = itemView.findViewById(R.id.textItemMeta);
+            duration = itemView.findViewById(R.id.textItemDuration);
             RatingBar rating = itemView.findViewById(R.id.ratingItem);
             ImageButton action = itemView.findViewById(R.id.buttonItemAction);
             image.setVisibility(View.VISIBLE);
