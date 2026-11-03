@@ -11,6 +11,8 @@
     <string name="trips_menu_logout">Sair</string>
     <string name="place_detail_menu_edit">Editar</string>
     <string name="place_detail_menu_delete">Apagar</string>
+    <string name="place_detail_photos_gallery">Escolher da galeria</string>
+    <string name="place_detail_photo_placeholder">Aqui irá aparecer a primeira foto tirada do local</string>
 
     <string name="login_welcome">Bem-vindo ao TripTrail</string>
     <string name="login_hint_email">Email</string>

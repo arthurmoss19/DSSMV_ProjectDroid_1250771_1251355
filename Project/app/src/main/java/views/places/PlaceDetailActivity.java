@@ -200,11 +200,15 @@ public class PlaceDetailActivity extends AppCompatActivity implements PhotoAdapt
                 boolean empty = photos == null || photos.isEmpty();
                 textPhotosEmpty.setVisibility(empty ? View.VISIBLE : View.GONE);
                 if (empty) {
+                    imagePlacePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                     imagePlacePhoto.setImageResource(R.drawable.icon_pin);
                 } else {
+                    imagePlacePhoto.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     Glide.with(PlaceDetailActivity.this)
                             .load(PhotoController.mediaUrl(photos.get(0)))
                             .centerCrop()
+                            .placeholder(R.drawable.icon_empty)
+                            .error(R.drawable.icon_pin)
                             .into(imagePlacePhoto);
                 }
             }
