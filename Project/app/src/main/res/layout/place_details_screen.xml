@@ -20,14 +20,14 @@
                 android:orientation="vertical" android:padding="@dimen/margin">
 
             <FrameLayout
-                    android:layout_width="match_parent" android:layout_height="180dp"
-                    android:background="@color/tt_outline">
+                    android:layout_width="match_parent" android:layout_height="240dp"
+                    android:background="@color/tt_background">
 
                 <ImageView
                         android:id="@+id/imagePlacePhoto"
                         android:layout_width="match_parent" android:layout_height="match_parent"
                         android:contentDescription="@string/cd_photo"
-                        android:scaleType="centerCrop"
+
                         android:visibility="gone" />
 
                 <TextView

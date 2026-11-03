@@ -216,7 +216,7 @@ public class PlaceDetailActivity extends AppCompatActivity implements PhotoAdapt
                     imagePlacePhoto.setVisibility(View.VISIBLE);
                     Glide.with(PlaceDetailActivity.this)
                             .load(PhotoController.mediaUrl(photos.get(0)))
-                            .centerCrop()
+                            .fitCenter()
                             .placeholder(R.drawable.icon_empty)
                             .error(R.drawable.icon_empty)
                             .into(imagePlacePhoto);
