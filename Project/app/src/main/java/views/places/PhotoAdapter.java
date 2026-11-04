@@ -38,7 +38,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         Photo photo = items.get(position);
         Glide.with(holder.image.getContext())
                 .load(PhotoController.mediaUrl(photo))
-                .centerCrop()
+                .fitCenter()
                 .into(holder.image);
     }
 
@@ -67,7 +67,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
                     ViewGroup.LayoutParams.MATCH_PARENT, dp(itemView, 120));
             imageParams.setMarginEnd(0);
             image.setLayoutParams(imageParams);
-            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            image.setScaleType(ImageView.ScaleType.FIT_CENTER);
             image.setImageTintList(null);
             image.setVisibility(View.VISIBLE);
 

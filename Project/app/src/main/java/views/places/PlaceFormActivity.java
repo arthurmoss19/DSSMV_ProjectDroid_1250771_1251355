@@ -413,9 +413,9 @@ public class PlaceFormActivity extends AppCompatActivity {
         ImageView image = new ImageView(this);
         image.setLayoutParams(new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        image.setScaleType(ImageView.ScaleType.FIT_CENTER);
         image.setContentDescription(getString(R.string.cd_photo));
-        Glide.with(this).load(source).centerCrop().into(image);
+        Glide.with(this).load(source).fitCenter().into(image);
         box.addView(image);
 
         ImageView delete = new ImageView(this);
