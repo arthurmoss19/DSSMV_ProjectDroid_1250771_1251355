@@ -24,4 +24,12 @@ public class TripMemberController {
     public void getMemberships(String userId, ApiCallback<List<TripMember>> callback) {
         members.getMemberships(userId, callback);
     }
+
+    public void getPendingInvites(String userId, ApiCallback<List<TripMember>> callback) {
+        members.getPendingInvites(userId, callback);
+    }
+
+    public void accept(String memberId, ApiCallback<TripMember> callback) {
+        members.accept(memberId, callback);
+    }
 }

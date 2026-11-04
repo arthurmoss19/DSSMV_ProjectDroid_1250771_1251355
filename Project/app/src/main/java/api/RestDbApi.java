@@ -19,6 +19,9 @@ public interface RestDbApi {
     @POST("rest/users")
     Call<User> createUser(@Body User user);
 
+    @PATCH("rest/members/{id}")
+    Call<TripMember> updateMember(@Path("id") String id, @Body Map<String, Object> fields);
+
     @GET("rest/trips")
     Call<List<Trip>> getTrips(@Query("q") String query, @Query("h") String hints);
 

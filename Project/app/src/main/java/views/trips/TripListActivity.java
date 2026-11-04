@@ -41,6 +41,8 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
 
     private TripMemberController memberController;
 
+    private boolean invitesChecked = false;
+
     private final ActivityResultLauncher<Intent> formLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK) {
@@ -72,6 +74,7 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
         recyclerTrips.setHasFixedSize(false);
         recyclerTrips.setAdapter(adapter);
         swipeRefresh.setOnRefreshListener(this::loadTrips);
+        loadInvites();
         Button fab = findViewById(R.id.fabAddTrip);
         fab.setOnClickListener(view -> openForm());
     }
@@ -180,6 +183,89 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
                 UiUtils.toast(TripListActivity.this, message);
             }
         });
+    }
+
+    private void loadInvites() {
+        if (invitesChecked) {
+            return;
+        }
+        invitesChecked = true;
+        memberController.getPendingInvites(session.getUserId(),
+                new ApiCallback<List<TripMember>>() {
+                    @Override
+                    public void onSuccess(List<TripMember> invites) {
+                        if (invites == null || invites.isEmpty()) {
+                            return;
+                        }
+                        List<String> ids = new ArrayList<>();
+                        for (TripMember invite : invites) {
+                            if (invite.getTripId() != null
+                                    && !ids.contains(invite.getTripId())) {
+                                ids.add(invite.getTripId());
+                            }
+                        }
+                        tripController.getTripsByIds(ids, new ApiCallback<List<Trip>>() {
+                            @Override
+                            public void onSuccess(List<Trip> trips) {
+                                showNextInvite(invites, trips, 0);
+                            }
+
+                            @Override
+                            public void onError(String message) {
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                    }
+                });
+    }
+
+    private void showNextInvite(List<TripMember> invites, List<Trip> trips, int index) {
+        if (index >= invites.size()) {
+            return;
+        }
+        TripMember invite = invites.get(index);
+        String title = invite.getTripId();
+        for (Trip trip : trips) {
+            if (invite.getTripId() != null && invite.getTripId().equals(trip.getId())) {
+                title = trip.getTitle();
+                break;
+            }
+        }
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.invites_title)
+                .setMessage(getString(R.string.invites_message, title))
+                .setCancelable(false)
+                .setNegativeButton(R.string.invites_decline, (dialog, which) ->
+                        memberController.remove(invite.getId(), new ApiCallback<Void>() {
+                            @Override
+                            public void onSuccess(Void data) {
+                                showNextInvite(invites, trips, index + 1);
+                            }
+
+                            @Override
+                            public void onError(String message) {
+                                UiUtils.toast(TripListActivity.this, message);
+                                showNextInvite(invites, trips, index + 1);
+                            }
+                        }))
+                .setPositiveButton(R.string.invites_accept, (dialog, which) ->
+                        memberController.accept(invite.getId(), new ApiCallback<TripMember>() {
+                            @Override
+                            public void onSuccess(TripMember member) {
+                                loadTrips();
+                                showNextInvite(invites, trips, index + 1);
+                            }
+
+                            @Override
+                            public void onError(String message) {
+                                UiUtils.toast(TripListActivity.this, message);
+                                showNextInvite(invites, trips, index + 1);
+                            }
+                        }))
+                .show();
     }
 
     private void loadSharedTrips(List<Trip> owned) {

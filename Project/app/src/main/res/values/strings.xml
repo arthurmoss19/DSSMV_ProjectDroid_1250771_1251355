@@ -94,6 +94,11 @@
     <string name="tab_stats">Estatísticas</string>
     <string name="places_filter_all">Todas</string>
     <string name="place_form_title_edit">Editar local</string>
+    <string name="members_role_pending">Pendente</string>
+    <string name="invites_title">Convite para uma viagem</string>
+    <string name="invites_message">Foi convidado para a viagem \"%1$s\". Aceitar?</string>
+    <string name="invites_accept">Aceitar</string>
+    <string name="invites_decline">Recusar</string>
     <plurals name="trips_duration">
         <item quantity="one">%1$d dia</item>
         <item quantity="many">%1$d dias</item>

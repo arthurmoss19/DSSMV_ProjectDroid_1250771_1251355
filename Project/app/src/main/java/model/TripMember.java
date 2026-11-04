@@ -10,11 +10,18 @@ public class TripMember {
         GUEST
     }
 
+    public enum Status {
+        PENDING,
+        ACCEPTED,
+        REJECTED
+    }
+
     @SerializedName("_id")
     private String id;
     private String userId;
     private String tripId;
     private Role role;
+    private Status status = Status.PENDING;
 
     public TripMember() {
     }
@@ -59,6 +66,23 @@ public class TripMember {
     public boolean isOwner() {
         return role == Role.OWNER;
     }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status == null ? Status.PENDING : status;
+    }
+
+    public boolean isPending() {
+        return status == Status.PENDING;
+    }
+
+    public boolean isAccepted() {
+        return status == Status.ACCEPTED;
+    }
+
     public boolean isEqualTo(TripMember obj) {
         if (obj == null) {
             return false;

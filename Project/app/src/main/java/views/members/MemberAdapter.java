@@ -60,9 +60,13 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
             holder.name.setText(user.getName());
             holder.email.setText(user.getEmail());
         }
-        holder.role.setText(member.isOwner()
-                ? R.string.members_role_owner
-                : R.string.members_role_guest);
+        if (member.isOwner()) {
+            holder.role.setText(R.string.members_role_owner);
+        } else if (member.isPending()) {
+            holder.role.setText(R.string.members_role_pending);
+        } else {
+            holder.role.setText(R.string.members_role_guest);
+        }
 
         boolean owner = member.isOwner();
         holder.remove.setVisibility(owner ? View.GONE : View.VISIBLE);
