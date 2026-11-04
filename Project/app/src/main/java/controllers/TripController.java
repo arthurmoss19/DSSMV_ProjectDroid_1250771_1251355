@@ -28,4 +28,8 @@ public class TripController {
             trips.create(trip, callback);
         }
     }
+
+    public void getTripsByIds(List<String> ids, ApiCallback<List<Trip>> callback) {
+        trips.getTripsByIds(ids, callback);
+    }
 }

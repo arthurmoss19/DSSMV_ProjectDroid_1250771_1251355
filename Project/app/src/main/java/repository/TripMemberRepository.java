@@ -59,4 +59,10 @@ public class TripMemberRepository extends BaseRepository {
         Call<okhttp3.ResponseBody> call = ApiClient.restDb().deleteMember(memberId);
         enqueueVoid(call, callback);
     }
+
+    public void getMemberships(String userId, ApiCallback<List<TripMember>> callback) {
+        Call<List<TripMember>> call = ApiClient.restDb()
+                .getMembers(filter("userId", userId));
+        enqueue(call, callback);
+    }
 }

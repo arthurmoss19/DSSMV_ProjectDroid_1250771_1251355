@@ -24,6 +24,10 @@ import util.Extras;
 import util.SessionManager;
 import util.UiUtils;
 import views.login.LoginActivity;
+import java.util.ArrayList;
+import java.util.Collections;
+import controllers.TripMemberController;
+import model.TripMember;
 
 public class TripListActivity extends AppCompatActivity implements TripAdapter.Listener {
     private SessionManager session;
@@ -34,6 +38,8 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
     private RecyclerView recyclerTrips;
     private LinearLayout emptyView;
     private ProgressBar progress;
+
+    private TripMemberController memberController;
 
     private final ActivityResultLauncher<Intent> formLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -53,6 +59,7 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
             return;
         }
         tripController = new TripController();
+        memberController = new TripMemberController();
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.menu_trips_list);
         toolbar.setOnMenuItemClickListener(this::onMenuItemSelected);
@@ -163,12 +170,8 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
         showLoading(true);
         tripController.getTrips(session.getUserId(), new ApiCallback<List<Trip>>() {
             @Override
-            public void onSuccess(List<Trip> trips) {
-                showLoading(false);
-                adapter.submitList(trips);
-                boolean empty = trips == null || trips.isEmpty();
-                emptyView.setVisibility(empty ? View.VISIBLE : View.GONE);
-                recyclerTrips.setVisibility(empty ? View.GONE : View.VISIBLE);
+            public void onSuccess(List<Trip> owned) {
+                loadSharedTrips(owned);
             }
 
             @Override
@@ -177,6 +180,75 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
                 UiUtils.toast(TripListActivity.this, message);
             }
         });
+    }
+
+    private void loadSharedTrips(List<Trip> owned) {
+        memberController.getMemberships(session.getUserId(),
+                new ApiCallback<List<TripMember>>() {
+                    @Override
+                    public void onSuccess(List<TripMember> memberships) {
+                        List<String> ids = new ArrayList<>();
+                        if (memberships != null) {
+                            for (TripMember member : memberships) {
+                                String tripId = member.getTripId();
+                                if (tripId != null && !ids.contains(tripId)) {
+                                    ids.add(tripId);
+                                }
+                            }
+                        }
+                        tripController.getTripsByIds(ids, new ApiCallback<List<Trip>>() {
+                            @Override
+                            public void onSuccess(List<Trip> shared) {
+                                showTrips(mergeTrips(owned, shared));
+                            }
+
+                            @Override
+                            public void onError(String message) {
+                                showTrips(owned);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        showTrips(owned);
+                    }
+                });
+    }
+
+    private List<Trip> mergeTrips(List<Trip> owned, List<Trip> shared) {
+        List<Trip> result = new ArrayList<>();
+        if (owned != null) {
+            result.addAll(owned);
+        }
+        if (shared != null) {
+            for (Trip trip : shared) {
+                boolean exists = false;
+                for (Trip item : result) {
+                    if (item.getId() != null && item.getId().equals(trip.getId())) {
+                        exists = true;
+                        break;
+                    }
+                }
+                if (!exists) {
+                    result.add(trip);
+                }
+            }
+        }
+        Collections.sort(result, (a, b) -> {
+            String dateA = a.getStartDate() == null ? "" : a.getStartDate();
+            String dateB = b.getStartDate() == null ? "" : b.getStartDate();
+            return dateB.compareTo(dateA);
+        });
+        return result;
+    }
+
+    private void showTrips(List<Trip> trips) {
+        showLoading(false);
+        adapter.submitList(trips);
+        boolean empty = trips == null || trips.isEmpty();
+        emptyView.setVisibility(empty ? View.VISIBLE : View.GONE);
+        recyclerTrips.setVisibility(empty ? View.GONE : View.VISIBLE);
     }
     private void showLoading(boolean loading) {
         progress.setVisibility(loading ? View.VISIBLE : View.GONE);

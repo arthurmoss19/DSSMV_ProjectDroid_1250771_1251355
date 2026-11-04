@@ -20,4 +20,8 @@ public class TripMemberController {
     public void remove(String memberId, ApiCallback<Void> callback) {
         members.remove(memberId, callback);
     }
+
+    public void getMemberships(String userId, ApiCallback<List<TripMember>> callback) {
+        members.getMemberships(userId, callback);
+    }
 }

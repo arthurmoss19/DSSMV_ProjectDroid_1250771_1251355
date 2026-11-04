@@ -136,7 +136,9 @@ public class TripFormActivity extends AppCompatActivity {
             target.setDescription(editDescription.getText().toString());
             target.setStartDate(startDateIso);
             target.setEndDate(endDateIso);
-            target.setOwnerId(session.getUserId());
+            if (target.getOwnerId() == null || target.getOwnerId().trim().isEmpty()) {
+                target.setOwnerId(session.getUserId());
+            }
 
             submit(target);
         } catch (InvalidDataException e) {

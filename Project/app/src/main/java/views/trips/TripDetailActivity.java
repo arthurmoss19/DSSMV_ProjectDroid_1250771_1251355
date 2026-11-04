@@ -140,7 +140,6 @@ public class TripDetailActivity extends AppCompatActivity
 
         loadTrip();
         loadCategories();
-        loadMembers();
     }
 
     private void bindViews() {
@@ -282,6 +281,7 @@ public class TripDetailActivity extends AppCompatActivity
                 trip = data;
                 toolbar.setTitle(data.getTitle());
                 updateStats();
+                loadMembers();
             }
 
             @Override
@@ -409,6 +409,28 @@ public class TripDetailActivity extends AppCompatActivity
         textStatsEmpty.setVisibility(statistics.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
+    private List<TripMember> withOwner(List<TripMember> members) {
+        List<TripMember> all = new ArrayList<>();
+        if (trip != null && trip.getOwnerId() != null) {
+            boolean present = false;
+            if (members != null) {
+                for (TripMember member : members) {
+                    if (trip.getOwnerId().equals(member.getUserId())) {
+                        present = true;
+                        break;
+                    }
+                }
+            }
+            if (!present) {
+                all.add(new TripMember(trip.getOwnerId(), tripId, TripMember.Role.OWNER));
+            }
+        }
+        if (members != null) {
+            all.addAll(members);
+        }
+        return all;
+    }
+
     private void loadMembers() {
         progressMembers.setVisibility(View.VISIBLE);
         memberController.getMembers(tripId, new ApiCallback<List<TripMember>>() {
@@ -424,8 +446,9 @@ public class TripDetailActivity extends AppCompatActivity
                                 byId.put(user.getId(), user);
                             }
                         }
-                        memberAdapter.submitList(members, byId);
-                        boolean empty = members == null || members.isEmpty();
+                        List<TripMember> all = withOwner(members);
+                        memberAdapter.submitList(all, byId);
+                        boolean empty = all.isEmpty();
                         textMembersEmpty.setVisibility(empty ? View.VISIBLE : View.GONE);
                         recyclerMembers.setVisibility(empty ? View.GONE : View.VISIBLE);
                     }
@@ -433,8 +456,9 @@ public class TripDetailActivity extends AppCompatActivity
                     @Override
                     public void onError(String message) {
                         progressMembers.setVisibility(View.GONE);
-                        memberAdapter.submitList(members, null);
-                        boolean empty = members == null || members.isEmpty();
+                        List<TripMember> all = withOwner(members);
+                        memberAdapter.submitList(all, null);
+                        boolean empty = all.isEmpty();
                         textMembersEmpty.setVisibility(empty ? View.VISIBLE : View.GONE);
                         recyclerMembers.setVisibility(empty ? View.GONE : View.VISIBLE);
                     }

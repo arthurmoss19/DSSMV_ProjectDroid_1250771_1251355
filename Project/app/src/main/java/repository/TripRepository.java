@@ -6,6 +6,7 @@ import api.ApiCallback;
 import api.ApiClient;
 import model.Trip;
 import retrofit2.Call;
+import java.util.ArrayList;
 
 public class TripRepository extends BaseRepository {
     public void getTrips(String ownerId, ApiCallback<List<Trip>> callback) {
@@ -32,5 +33,33 @@ public class TripRepository extends BaseRepository {
     public void delete(String tripId, ApiCallback<Void> callback) {
         Call<okhttp3.ResponseBody> call = ApiClient.restDb().deleteTrip(tripId);
         enqueueVoid(call, callback);
+    }
+
+    public void getTripsByIds(List<String> ids, ApiCallback<List<Trip>> callback) {
+        List<Trip> result = new ArrayList<>();
+        loadTrip(ids, 0, result, callback);
+    }
+
+    private void loadTrip(List<String> ids, int index, List<Trip> result,
+                          ApiCallback<List<Trip>> callback) {
+        if (ids == null || index >= ids.size()) {
+            callback.onSuccess(result);
+            return;
+        }
+        Call<Trip> call = ApiClient.restDb().getTrip(ids.get(index));
+        enqueue(call, new ApiCallback<Trip>() {
+            @Override
+            public void onSuccess(Trip trip) {
+                if (trip != null) {
+                    result.add(trip);
+                }
+                loadTrip(ids, index + 1, result, callback);
+            }
+
+            @Override
+            public void onError(String message) {
+                loadTrip(ids, index + 1, result, callback);
+            }
+        });
     }
 }
