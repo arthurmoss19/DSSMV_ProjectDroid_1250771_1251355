@@ -5,12 +5,38 @@ import android.content.DialogInterface;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 public final class UiUtils {
 
     private UiUtils() {}
+
+    /**
+     * Empurra a barra superior (toolbar) para baixo da barra de estado, para que
+     * o titulo e os botoes (voltar, sair, etc.) nao fiquem por cima das horas e da
+     * bateria do telemovel. Acrescenta ainda um pequeno espaco extra no topo.
+     */
+    public static void applyTopBarInsets(View bar) {
+        if (bar == null) {
+            return;
+        }
+        final int left = bar.getPaddingLeft();
+        final int top = bar.getPaddingTop();
+        final int right = bar.getPaddingRight();
+        final int bottom = bar.getPaddingBottom();
+        final int extra = Math.round(8 * bar.getResources().getDisplayMetrics().density);
+        ViewCompat.setOnApplyWindowInsetsListener(bar, (view, windowInsets) -> {
+            Insets statusBar = windowInsets.getInsets(WindowInsetsCompat.Type.statusBars());
+            view.setPadding(left, top + statusBar.top + extra, right, bottom);
+            return windowInsets;
+        });
+        ViewCompat.requestApplyInsets(bar);
+    }
 
     public static void toast(Context context, String message) {
         if (context == null || message == null) {

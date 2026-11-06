@@ -84,11 +84,13 @@ public class PlaceDetailActivity extends AppCompatActivity {
         textCountry = findViewById(R.id.textPlaceCountry);
         textPhotosEmpty = findViewById(R.id.textPhotosEmpty);
         rating = findViewById(R.id.ratingPlace);
+        rating.setIsIndicator(true);
         RecyclerView recyclerPhotos = findViewById(R.id.recyclerPhotos);
 
         toolbar.setNavigationOnClickListener(view -> finish());
         toolbar.inflateMenu(R.menu.menu_place_details);
         toolbar.setOnMenuItemClickListener(this::onMenuItemSelected);
+        UiUtils.applyTopBarInsets(toolbar);
 
         photoAdapter = new PhotoAdapter();
         recyclerPhotos.setLayoutManager(

@@ -53,6 +53,7 @@ public class TripFormActivity extends AppCompatActivity {
         progress = findViewById(R.id.progressTripForm);
 
         toolbar.setNavigationOnClickListener(view -> finish());
+        UiUtils.applyTopBarInsets(toolbar);
         buttonSave.setOnClickListener(view -> save());
         editStartDate.setOnClickListener(view -> pickDate(true));
         editEndDate.setOnClickListener(view -> pickDate(false));

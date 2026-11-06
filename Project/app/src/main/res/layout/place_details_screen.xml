@@ -6,8 +6,8 @@
 
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"
-            android:background="@color/tt_primary"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:background="@color/tt_primary" android:minHeight="?attr/actionBarSize"
             app:navigationIcon="@drawable/icon_back" app:title="@string/place_detail_title"
             app:titleTextColor="@android:color/white" />
 
@@ -53,6 +53,8 @@
                     android:id="@+id/ratingPlace"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:numStars="5" android:rating="0" android:stepSize="0.5"
+                    android:isIndicator="true"
+                    android:clickable="false" android:focusable="false"
                     android:progressTint="@color/tt_accent" android:progressBackgroundTint="@color/tt_outline" />
 
             <TextView

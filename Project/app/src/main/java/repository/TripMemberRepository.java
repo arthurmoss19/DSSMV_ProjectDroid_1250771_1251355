@@ -19,7 +19,8 @@ public class TripMemberRepository extends BaseRepository {
         enqueue(call, callback);
     }
 
-    public void invite(String tripId, String email, ApiCallback<TripMember> callback) {
+    public void invite(String tripId, String email, String ownerId,
+                       ApiCallback<TripMember> callback) {
         if (email == null || email.trim().isEmpty()) {
             callback.onError("Indique o email do participante.");
             return;
@@ -27,6 +28,14 @@ public class TripMemberRepository extends BaseRepository {
         users.findByEmail(email.trim(), new ApiCallback<User>() {
             @Override
             public void onSuccess(User user) {
+                if (user == null || user.getId() == null) {
+                    callback.onError("Não existe nenhuma conta com o email " + email.trim() + ".");
+                    return;
+                }
+                if (ownerId != null && ownerId.equals(user.getId())) {
+                    callback.onError("Não pode convidar-se a si próprio: já é o proprietário desta viagem.");
+                    return;
+                }
                 getMembers(tripId, new ApiCallback<List<TripMember>>() {
                     @Override
                     public void onSuccess(List<TripMember> members) {

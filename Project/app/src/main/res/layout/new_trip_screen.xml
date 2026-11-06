@@ -9,8 +9,9 @@
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             android:background="@color/tt_primary"
+            android:minHeight="?attr/actionBarSize"
             app:navigationIcon="@drawable/icon_back"
             app:title="@string/trips_new_title"
             app:titleTextColor="@android:color/white" />

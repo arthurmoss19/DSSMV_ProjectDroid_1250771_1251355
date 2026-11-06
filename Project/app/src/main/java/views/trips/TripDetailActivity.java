@@ -50,6 +50,7 @@ import model.User;
 import repository.UserRepository;
 import util.Extras;
 import util.GeoUtils;
+import util.SessionManager;
 import util.UiUtils;
 import views.members.MemberAdapter;
 import views.places.PlaceAdapter;
@@ -148,6 +149,7 @@ public class TripDetailActivity extends AppCompatActivity
         toolbar.setTitle(R.string.trip_detail_default_title);
         toolbar.inflateMenu(R.menu.menu_trip_details);
         toolbar.setOnMenuItemClickListener(this::onMenuItemSelected);
+        UiUtils.applyTopBarInsets(toolbar);
 
         tabLayout = findViewById(R.id.tabLayout);
         sectionPlaces = findViewById(R.id.sectionPlaces);
@@ -476,8 +478,19 @@ public class TripDetailActivity extends AppCompatActivity
     private void invite() {
         String email = editInviteEmail.getText() == null
                 ? "" : editInviteEmail.getText().toString().trim();
+        if (email.isEmpty()) {
+            UiUtils.toast(this, getString(R.string.members_invite_email_missing));
+            editInviteEmail.requestFocus();
+            return;
+        }
+        String myEmail = SessionManager.getInstance(this).getUserEmail();
+        if (myEmail != null && myEmail.trim().equalsIgnoreCase(email)) {
+            UiUtils.toast(this, getString(R.string.members_invite_self));
+            return;
+        }
+        String ownerId = trip == null ? null : trip.getOwnerId();
         progressMembers.setVisibility(View.VISIBLE);
-        memberController.invite(tripId, email, new ApiCallback<TripMember>() {
+        memberController.invite(tripId, email, ownerId, new ApiCallback<TripMember>() {
             @Override
             public void onSuccess(TripMember member) {
                 progressMembers.setVisibility(View.GONE);

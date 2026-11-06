@@ -13,8 +13,9 @@ public class TripMemberController {
         members.getMembers(tripId, callback);
     }
 
-    public void invite(String tripId, String email, ApiCallback<TripMember> callback) {
-        members.invite(tripId, email, callback);
+    public void invite(String tripId, String email, String ownerId,
+                       ApiCallback<TripMember> callback) {
+        members.invite(tripId, email, ownerId, callback);
     }
 
     public void remove(String memberId, ApiCallback<Void> callback) {

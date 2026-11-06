@@ -28,10 +28,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import controllers.TripMemberController;
 import model.TripMember;
-import android.os.Handler;
-import android.os.Looper;
-import java.util.HashSet;
-import java.util.Set;
 
 public class TripListActivity extends AppCompatActivity implements TripAdapter.Listener {
     private SessionManager session;
@@ -45,18 +41,7 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
 
     private TripMemberController memberController;
 
-    private static final long INVITE_POLL_MS = 10000;
-
-    private final Set<String> shownInvites = new HashSet<>();
-    private final Handler handler = new Handler(Looper.getMainLooper());
-
-    private final Runnable invitePoll = new Runnable() {
-        @Override
-        public void run() {
-            loadInvites();
-            handler.postDelayed(this, INVITE_POLL_MS);
-        }
-    };
+    private boolean invitesChecked = false;
 
     private final ActivityResultLauncher<Intent> formLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -80,6 +65,7 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.menu_trips_list);
         toolbar.setOnMenuItemClickListener(this::onMenuItemSelected);
+        UiUtils.applyTopBarInsets(toolbar);
         swipeRefresh = findViewById(R.id.swipeRefreshTrips);
         recyclerTrips = findViewById(R.id.recyclerTrips);
         emptyView = findViewById(R.id.textTripsEmpty);
@@ -89,6 +75,7 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
         recyclerTrips.setHasFixedSize(false);
         recyclerTrips.setAdapter(adapter);
         swipeRefresh.setOnRefreshListener(this::loadTrips);
+        loadInvites();
         Button fab = findViewById(R.id.fabAddTrip);
         fab.setOnClickListener(view -> openForm());
     }
@@ -97,17 +84,8 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
         super.onResume();
         if (session != null && session.isLoggedIn()) {
             loadTrips();
-            handler.removeCallbacks(invitePoll);
-            handler.post(invitePoll);
         }
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        handler.removeCallbacks(invitePoll);
-    }
-
     private boolean onMenuItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_logout) {
             session.logout();
@@ -209,6 +187,10 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
     }
 
     private void loadInvites() {
+        if (invitesChecked) {
+            return;
+        }
+        invitesChecked = true;
         memberController.getPendingInvites(session.getUserId(),
                 new ApiCallback<List<TripMember>>() {
                     @Override
@@ -216,25 +198,17 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
                         if (invites == null || invites.isEmpty()) {
                             return;
                         }
-                        List<TripMember> fresh = new ArrayList<>();
                         List<String> ids = new ArrayList<>();
                         for (TripMember invite : invites) {
-                            if (invite.getId() != null && shownInvites.contains(invite.getId())) {
-                                continue;
-                            }
-                            fresh.add(invite);
-                            shownInvites.add(invite.getId());
-                            if (invite.getTripId() != null && !ids.contains(invite.getTripId())) {
+                            if (invite.getTripId() != null
+                                    && !ids.contains(invite.getTripId())) {
                                 ids.add(invite.getTripId());
                             }
-                        }
-                        if (fresh.isEmpty()) {
-                            return;
                         }
                         tripController.getTripsByIds(ids, new ApiCallback<List<Trip>>() {
                             @Override
                             public void onSuccess(List<Trip> trips) {
-                                showNextInvite(fresh, trips, 0);
+                                showNextInvite(invites, trips, 0);
                             }
 
                             @Override
@@ -274,7 +248,6 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
 
                             @Override
                             public void onError(String message) {
-                                shownInvites.remove(invite.getId());
                                 UiUtils.toast(TripListActivity.this, message);
                                 showNextInvite(invites, trips, index + 1);
                             }
@@ -289,7 +262,6 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
 
                             @Override
                             public void onError(String message) {
-                                shownInvites.remove(invite.getId());
                                 UiUtils.toast(TripListActivity.this, message);
                                 showNextInvite(invites, trips, index + 1);
                             }
