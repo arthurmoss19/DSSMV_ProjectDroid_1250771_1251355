@@ -33,7 +33,7 @@ public class TripMemberRepository extends BaseRepository {
                     return;
                 }
                 if (ownerId != null && ownerId.equals(user.getId())) {
-                    callback.onError("Não pode convidar-se a si próprio: já é o proprietário desta viagem.");
+                    callback.onError("Não pode convidar o proprietário da viagem.");
                     return;
                 }
                 getMembers(tripId, new ApiCallback<List<TripMember>>() {
