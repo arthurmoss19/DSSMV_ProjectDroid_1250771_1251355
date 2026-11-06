@@ -41,6 +41,7 @@
     <string name="trips_delete_message">Quer apagar a viagem \"%1$s\"? Esta ação não pode ser anulada.</string>
     <string name="trips_delete_action">Apagar</string>
     <string name="trips_edit_action">Editar</string>
+    <string name="trips_owner_only">Só o proprietário da viagem pode editá-la ou apagá-la.</string>
 
     <string name="places_search_hint">Pesquisar local pelo nome</string>
     <string name="places_empty">Sem locais nesta viagem.</string>
@@ -70,6 +71,7 @@
     <string name="members_invite">Convidar</string>
     <string name="members_invite_email_missing">Indique o email do participante.</string>
     <string name="members_invite_self">Não pode convidar-se a si próprio: já faz parte desta viagem.</string>
+    <string name="members_owner_only">Só o proprietário da viagem pode gerir os participantes.</string>
     <string name="members_invite_help">O convidado tem de ter conta no TripTrail. Pode consultar a viagem e acrescentar locais.</string>
     <string name="members_empty">Ainda não há participantes nesta viagem.</string>
 

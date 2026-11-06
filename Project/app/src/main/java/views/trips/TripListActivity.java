@@ -103,6 +103,10 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
         if (trip == null) {
             return;
         }
+        if (!isOwner(trip)) {
+            UiUtils.toast(this, getString(R.string.trips_owner_only));
+            return;
+        }
         new AlertDialog.Builder(this)
                 .setTitle(trip.getTitle())
                 .setItems(new CharSequence[]{
@@ -117,6 +121,11 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
                 })
                 .show();
     }
+    private boolean isOwner(Trip trip) {
+        String myId = session == null ? null : session.getUserId();
+        return myId != null && trip.getOwnerId() != null && myId.equals(trip.getOwnerId());
+    }
+
     private void openForm() {
         openForm(null);
     }

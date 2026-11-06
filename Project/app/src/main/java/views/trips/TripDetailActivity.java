@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -99,6 +100,7 @@ public class TripDetailActivity extends AppCompatActivity
 
     private String tripId;
     private Trip trip;
+    private boolean isOwner;
     private final List<Place> allPlaces = new ArrayList<>();
     private final List<Category> categories = new ArrayList<>();
 
@@ -177,6 +179,37 @@ public class TripDetailActivity extends AppCompatActivity
         textStatsRating = findViewById(R.id.textStatsRating);
         textStatsDays = findViewById(R.id.textStatsDays);
         textStatsEmpty = findViewById(R.id.textStatsEmpty);
+
+        setOwnerActionsVisible(false);
+    }
+
+    private void updatePermissions() {
+        String myId = SessionManager.getInstance(this).getUserId();
+        boolean owner = trip != null && trip.getOwnerId() != null
+                && trip.getOwnerId().equals(myId);
+        isOwner = owner;
+        setOwnerActionsVisible(owner);
+    }
+
+    private void setOwnerActionsVisible(boolean visible) {
+        Menu menu = toolbar.getMenu();
+        if (menu != null) {
+            MenuItem edit = menu.findItem(R.id.action_edit_trip);
+            MenuItem delete = menu.findItem(R.id.action_delete_trip);
+            if (edit != null) {
+                edit.setVisible(visible);
+            }
+            if (delete != null) {
+                delete.setVisible(visible);
+            }
+        }
+        View invite = findViewById(R.id.buttonInvite);
+        if (invite != null) {
+            invite.setVisibility(visible ? View.VISIBLE : View.GONE);
+        }
+        if (editInviteEmail != null) {
+            editInviteEmail.setVisibility(visible ? View.VISIBLE : View.GONE);
+        }
     }
 
     private void setupTabs() {
@@ -262,10 +295,21 @@ public class TripDetailActivity extends AppCompatActivity
             if (trip == null) {
                 return true;
             }
+            if (!isOwner) {
+                UiUtils.toast(this, getString(R.string.trips_owner_only));
+                return true;
+            }
             openForm();
             return true;
         }
         if (item.getItemId() == R.id.action_delete_trip) {
+            if (trip == null) {
+                return true;
+            }
+            if (!isOwner) {
+                UiUtils.toast(this, getString(R.string.trips_owner_only));
+                return true;
+            }
             confirmDelete();
             return true;
         }
@@ -282,6 +326,7 @@ public class TripDetailActivity extends AppCompatActivity
                 }
                 trip = data;
                 toolbar.setTitle(data.getTitle());
+                updatePermissions();
                 updateStats();
                 loadMembers();
             }
@@ -449,7 +494,7 @@ public class TripDetailActivity extends AppCompatActivity
                             }
                         }
                         List<TripMember> all = withOwner(members);
-                        memberAdapter.submitList(all, byId);
+                        memberAdapter.submitList(all, byId, isOwner);
                         boolean empty = all.isEmpty();
                         textMembersEmpty.setVisibility(empty ? View.VISIBLE : View.GONE);
                         recyclerMembers.setVisibility(empty ? View.GONE : View.VISIBLE);
@@ -459,7 +504,7 @@ public class TripDetailActivity extends AppCompatActivity
                     public void onError(String message) {
                         progressMembers.setVisibility(View.GONE);
                         List<TripMember> all = withOwner(members);
-                        memberAdapter.submitList(all, null);
+                        memberAdapter.submitList(all, null, isOwner);
                         boolean empty = all.isEmpty();
                         textMembersEmpty.setVisibility(empty ? View.VISIBLE : View.GONE);
                         recyclerMembers.setVisibility(empty ? View.GONE : View.VISIBLE);
@@ -550,6 +595,10 @@ public class TripDetailActivity extends AppCompatActivity
 
     @Override
     public void onRemoveMember(TripMember member) {
+        if (!isOwner) {
+            UiUtils.toast(this, getString(R.string.members_owner_only));
+            return;
+        }
         new AlertDialog.Builder(this)
                 .setTitle(R.string.action_delete)
                 .setMessage("Quer remover este participante da viagem?")
@@ -585,6 +634,10 @@ public class TripDetailActivity extends AppCompatActivity
     }
 
     private void confirmDelete() {
+        if (!isOwner) {
+            UiUtils.toast(this, getString(R.string.trips_owner_only));
+            return;
+        }
         new AlertDialog.Builder(this)
                 .setTitle(R.string.trips_delete_title)
                 .setMessage(getString(R.string.trips_delete_message,

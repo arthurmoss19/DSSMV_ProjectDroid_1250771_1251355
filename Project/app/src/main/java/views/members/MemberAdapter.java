@@ -24,10 +24,12 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
     private final List<TripMember> items = new ArrayList<>();
     private final Map<String, User> users = new HashMap<>();
     private final Listener listener;
+    private boolean canManage;
     public MemberAdapter(Listener listener) {
         this.listener = listener;
     }
-    public void submitList(List<TripMember> members, Map<String, User> usersById) {
+    public void submitList(List<TripMember> members, Map<String, User> usersById,
+                          boolean canManage) {
         items.clear();
         users.clear();
         if (members != null) {
@@ -36,6 +38,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
         if (usersById != null) {
             users.putAll(usersById);
         }
+        this.canManage = canManage;
         notifyDataSetChanged();
     }
 
@@ -69,7 +72,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
         }
 
         boolean owner = member.isOwner();
-        holder.remove.setVisibility(owner ? View.GONE : View.VISIBLE);
+        holder.remove.setVisibility(owner || !canManage ? View.GONE : View.VISIBLE);
         holder.remove.setOnClickListener(view -> {
             if (listener != null) {
                 listener.onRemoveMember(member);
