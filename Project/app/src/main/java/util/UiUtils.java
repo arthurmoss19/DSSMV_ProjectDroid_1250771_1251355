@@ -15,12 +15,7 @@ import com.google.android.material.snackbar.Snackbar;
 public final class UiUtils {
 
     private UiUtils() {}
-
-    /**
-     * Empurra a barra superior (toolbar) para baixo da barra de estado, para que
-     * o titulo e os botoes (voltar, sair, etc.) nao fiquem por cima das horas e da
-     * bateria do telemovel. Acrescenta ainda um pequeno espaco extra no topo.
-     */
+    
     public static void applyTopBarInsets(View bar) {
         if (bar == null) {
             return;
