@@ -64,9 +64,9 @@ public class Place {
         return rating;
     }
     public void setRating(double rating) {
-        if (rating < 1 || rating > 5) {
+        if (rating < 0.5 || rating > 5) {
             throw new InvalidDataException("Place: rating = " + rating
-                    + " (tem de estar entre 1 e 5)");
+                    + " (tem de estar entre 0,5 e 5)");
         }
         this.rating = rating;
     }
