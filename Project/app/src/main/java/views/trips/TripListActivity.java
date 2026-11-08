@@ -60,9 +60,7 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
 
     private final ActivityResultLauncher<Intent> formLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                if (result.getResultCode() == RESULT_OK) {
-                    loadTrips();
-                }
+                if (result.getResultCode() == RESULT_OK) {}
             });
 
     @Override

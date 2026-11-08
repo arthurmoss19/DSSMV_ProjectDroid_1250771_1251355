@@ -72,6 +72,7 @@ public class PlaceFormActivity extends AppCompatActivity {
 
     private LinearLayout photoPreviews;
     private ProgressBar progress;
+    private Button buttonSave;
 
     private CategoryAdapter categoryAdapter;
     private FusedLocationProviderClient locationClient;
@@ -87,6 +88,7 @@ public class PlaceFormActivity extends AppCompatActivity {
     private int existingPhotoCount = 0;
     private String enrichedAddress = "";
     private String enrichedCountry = "";
+    private String enrichedCountryCode = "";
 
     private final ActivityResultLauncher<Intent> cameraLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -104,15 +106,6 @@ public class PlaceFormActivity extends AppCompatActivity {
                     addPendingPhoto(ImageUtils.fromUri(this, result.getData().getData()));
                 }
             });
-
-    public static void start(Context context, String tripId, String placeId) {
-        Intent intent = new Intent(context, PlaceFormActivity.class);
-        intent.putExtra(Extras.TRIP_ID, tripId);
-        if (placeId != null) {
-            intent.putExtra(Extras.PLACE_ID, placeId);
-        }
-        context.startActivity(intent);
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -141,7 +134,7 @@ public class PlaceFormActivity extends AppCompatActivity {
 
         Button getLocation = findViewById(R.id.buttonGetLocation);
         Button takePhoto = findViewById(R.id.buttonTakePhoto);
-        Button save = findViewById(R.id.buttonSavePlace);
+        buttonSave = findViewById(R.id.buttonSavePlace);
 
         toolbar.setNavigationOnClickListener(view -> finish());
         UiUtils.applyTopBarInsets(toolbar);
@@ -149,7 +142,7 @@ public class PlaceFormActivity extends AppCompatActivity {
         takePhoto.setOnClickListener(view -> cameraLauncher.launch(CameraActivity.intent(this)));
         Button pickPhoto = findViewById(R.id.buttonPickPhoto);
         pickPhoto.setOnClickListener(view -> openGallery());
-        save.setOnClickListener(view -> save());
+        buttonSave.setOnClickListener(view -> save());
 
         categoryAdapter = new CategoryAdapter(this, CategoryController.defaults());
         spinnerCategory.setAdapter(categoryAdapter);
@@ -201,6 +194,7 @@ public class PlaceFormActivity extends AppCompatActivity {
                 editLongitude.setText(String.valueOf(place.getLongitude()));
                 enrichedAddress = place.getAddress();
                 enrichedCountry = place.getCountry();
+                enrichedCountryCode = place.getCountryCode();
                 showAddress();
                 pendingCategoryId = place.getCategoryId();
                 selectCategory();
@@ -263,6 +257,7 @@ public class PlaceFormActivity extends AppCompatActivity {
                     showLoading(false);
                     enrichedAddress = place.getAddress();
                     enrichedCountry = place.getCountry();
+                    enrichedCountryCode = place.getCountryCode();
                     showAddress();
                 }
 
@@ -304,9 +299,12 @@ public class PlaceFormActivity extends AppCompatActivity {
             target.setRating(Math.max(1.0f, rating.getRating()));
             target.setLatitude(parse(editLatitude));
             target.setLongitude(parse(editLongitude));
-            target.setVisitedAt(DateUtils.today());
+            if (editingPlace == null || target.getVisitedAt() == null) {
+                target.setVisitedAt(DateUtils.today());
+            }
             target.setAddress(enrichedAddress);
             target.setCountry(enrichedCountry);
+            target.setCountryCode(enrichedCountryCode);
 
             showLoading(true);
             ApiCallback<Place> callback = new ApiCallback<Place>() {
@@ -510,5 +508,6 @@ public class PlaceFormActivity extends AppCompatActivity {
 
     private void showLoading(boolean loading) {
         progress.setVisibility(loading ? View.VISIBLE : View.GONE);
+        buttonSave.setEnabled(!loading);
     }
 }

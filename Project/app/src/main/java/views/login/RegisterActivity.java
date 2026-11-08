@@ -47,6 +47,10 @@ public class RegisterActivity extends AppCompatActivity {
         String email = valueOf(editEmail);
         String password = valueOf(editPassword);
         String confirmation = valueOf(editPasswordConfirm);
+        if (!password.equals(confirmation)) {
+            UiUtils.toast(this, "As palavras-passe não coincidem.");
+            return;
+        }
         setLoading(true);
         userController.register(name, email, password, new ApiCallback<User>() {
             @Override

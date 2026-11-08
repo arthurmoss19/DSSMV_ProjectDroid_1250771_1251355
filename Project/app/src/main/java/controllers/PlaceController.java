@@ -31,6 +31,10 @@ public class PlaceController {
     }
 
     public void createEnriched(Place place, ApiCallback<Place> callback) {
+        if (place.isEnriched()) {
+            places.create(place, callback);
+            return;
+        }
         enrich(place, new ApiCallback<Place>() {
             @Override
             public void onSuccess(Place data) {

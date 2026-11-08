@@ -1,7 +1,6 @@
 package views.trips;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -113,16 +112,8 @@ public class TripDetailActivity extends AppCompatActivity
 
     private final ActivityResultLauncher<Intent> placeFormLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                if (result.getResultCode() == RESULT_OK) {
-                    loadPlaces();
-                }
+                if (result.getResultCode() == RESULT_OK) {}
             });
-
-    public static void start(Context context, String tripId) {
-        Intent intent = new Intent(context, TripDetailActivity.class);
-        intent.putExtra(Extras.TRIP_ID, tripId);
-        context.startActivity(intent);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
