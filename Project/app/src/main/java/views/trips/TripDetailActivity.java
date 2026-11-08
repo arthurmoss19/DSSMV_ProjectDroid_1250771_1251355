@@ -48,7 +48,7 @@ import model.Trip;
 import model.TripMember;
 import model.TripStatistics;
 import model.User;
-import repository.UserRepository;
+import controllers.UserController;
 import util.Extras;
 import util.GeoUtils;
 import util.SessionManager;
@@ -65,7 +65,7 @@ public class TripDetailActivity extends AppCompatActivity
     private final PlaceController placeController = new PlaceController();
     private final CategoryController categoryController = new CategoryController();
     private final TripMemberController memberController = new TripMemberController();
-    private final UserRepository users = new UserRepository();
+    private final UserController userController = new UserController();
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -483,7 +483,7 @@ public class TripDetailActivity extends AppCompatActivity
         memberController.getMembers(tripId, new ApiCallback<List<TripMember>>() {
             @Override
             public void onSuccess(List<TripMember> members) {
-                users.getAll(new ApiCallback<List<User>>() {
+                userController.getAll(new ApiCallback<List<User>>() {
                     @Override
                     public void onSuccess(List<User> data) {
                         progressMembers.setVisibility(View.GONE);

@@ -3,6 +3,7 @@ package controllers;
 import api.ApiCallback;
 import model.User;
 import repository.UserRepository;
+import java.util.List;
 public class UserController {
     private final UserRepository users = new UserRepository();
     private final CategoryController categories = new CategoryController();
@@ -21,5 +22,9 @@ public class UserController {
     }
     public void register(String name, String email, String password, ApiCallback<User> callback) {
         users.register(name, email, password, callback);
+    }
+
+    public void getAll(ApiCallback<List<User>> callback) {
+        users.getAll(callback);
     }
 }

@@ -43,18 +43,4 @@ public class PlaceController {
             }
         });
     }
-
-    public void refreshEnrichment(Place place, ApiCallback<Place> callback) {
-        enrich(place, new ApiCallback<Place>() {
-            @Override
-            public void onSuccess(Place data) {
-                places.updateEnrichment(data, callback);
-            }
-
-            @Override
-            public void onError(String message) {
-                callback.onError(message);
-            }
-        });
-    }
 }

@@ -39,16 +39,6 @@ public class PlaceRepository extends BaseRepository {
         enqueue(call, callback);
     }
 
-    public void updateEnrichment(Place place, ApiCallback<Place> callback) {
-        Map<String, Object> fields = new HashMap<>();
-        fields.put("address", place.getAddress());
-        fields.put("country", place.getCountry());
-        fields.put("countryCode", place.getCountryCode());
-
-        Call<Place> call = ApiClient.restDb().updatePlace(place.getId(), fields);
-        enqueue(call, callback);
-    }
-
     public void delete(String placeId, ApiCallback<Void> callback) {
         photos.deleteByPlace(placeId, new ApiCallback<Void>() {
             @Override
