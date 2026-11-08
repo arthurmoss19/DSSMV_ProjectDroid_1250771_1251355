@@ -79,20 +79,6 @@ public class TripMember {
         return status == Status.PENDING;
     }
 
-    public boolean isAccepted() {
-        return status == Status.ACCEPTED;
-    }
-
-    public boolean isEqualTo(TripMember obj) {
-        if (obj == null) {
-            return false;
-        }
-        return equals(userId, obj.userId) && equals(tripId, obj.tripId);
-    }
-
-    private boolean equals(String a, String b) {
-        return a != null && a.equals(b);
-    }
     @Override
     public String toString() {
         return "TripMember{" + userId + " -> " + tripId + " (" + role + ")}";

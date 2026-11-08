@@ -3,7 +3,7 @@ package model;
 import com.google.gson.annotations.SerializedName;
 import exceptions.InvalidDataException;
 public class Place {
-    public static final String NO_COUNTRY = "";
+    private static final String NO_COUNTRY = "";
 
     @SerializedName("_id")
     private String id;
@@ -19,6 +19,7 @@ public class Place {
 
     private String countryCode;
     private String visitedAt;
+
     public Place() {
     }
     public Place(String tripId, String name, double latitude, double longitude) {
@@ -120,15 +121,6 @@ public class Place {
         return !getAddress().isEmpty() || !getCountryCode().isEmpty() || !getCountry().isEmpty();
     }
 
-    public boolean isEqualTo(Place obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (this.id != null && obj.id != null) {
-            return this.id.equals(obj.id);
-        }
-        return name != null && name.equals(obj.name);
-    }
     @Override
     public String toString() {
         return name + " (" + String.format(java.util.Locale.US, "%.4f, %.4f", latitude, longitude) + ")";

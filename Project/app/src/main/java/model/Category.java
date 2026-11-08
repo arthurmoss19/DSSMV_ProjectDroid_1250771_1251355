@@ -41,24 +41,6 @@ public class Category {
         return icon == null ? "other" : icon;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    public boolean isEqualTo(Category obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (this.id != null && obj.id != null) {
-            return this.id.equals(obj.id);
-        }
-        return name != null && name.equalsIgnoreCase(obj.name);
-    }
-
-    public static Category unknown() {
-        return new Category("Outro", "other");
-    }
-
     @Override
     public String toString() {
         return name;

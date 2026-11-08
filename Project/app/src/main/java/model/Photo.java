@@ -44,31 +44,9 @@ public class Photo {
         }
         this.mediaId = mediaId;
     }
-    public String getCaption() {
-        return caption == null ? "" : caption;
-    }
+
     public void setCaption(String caption) {
         this.caption = caption == null ? "" : caption.trim();
-    }
-    public String getTakenAt() {
-        return takenAt;
-    }
-    public void setTakenAt(String takenAt) {
-        this.takenAt = takenAt;
-    }
-
-    public boolean hasId() {
-        return id != null && !id.trim().isEmpty();
-    }
-
-    public boolean isEqualTo(Photo obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (this.id != null && obj.id != null) {
-            return this.id.equals(obj.id);
-        }
-        return mediaId != null && mediaId.equals(obj.mediaId);
     }
 
     @Override

@@ -14,8 +14,6 @@ public class Trip {
     private String endDate;
     private String ownerId;
 
-    private String baseCurrency;
-
     public Trip() {}
 
     public Trip(String title, String description, String startDate, String endDate, String ownerId) {
@@ -62,9 +60,15 @@ public class Trip {
         if (!DateUtils.isValidDate(startDate)) {
             throw new InvalidDataException("Trip: data de início inválida \"" + startDate + "\"");
         }
+        String previous = this.startDate;
         this.startDate = startDate;
-        if (this.endDate != null) {
-            checkRange();
+        try {
+            if (this.endDate != null) {
+                checkRange();
+            }
+        } catch (InvalidDataException e) {
+            this.startDate = previous;
+            throw e;
         }
     }
 
@@ -106,14 +110,6 @@ public class Trip {
         this.ownerId = ownerId;
     }
 
-    public String getBaseCurrency() {
-        return baseCurrency == null || baseCurrency.trim().isEmpty() ? "EUR" : baseCurrency;
-    }
-
-    public void setBaseCurrency(String baseCurrency) {
-        this.baseCurrency = baseCurrency == null ? "EUR" : baseCurrency.trim();
-    }
-
     public boolean hasId() {
         return id != null && !id.trim().isEmpty();
     }
@@ -121,16 +117,6 @@ public class Trip {
     public int getDurationInDays() {
         long days = DateUtils.daysBetween(startDate, endDate);
         return (int) Math.max(1, days + 1);
-    }
-
-    public boolean isEqualTo(Trip obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (this.id != null && obj.id != null) {
-            return this.id.equals(obj.id);
-        }
-        return title != null && title.equals(obj.title);
     }
 
     public Trip copy() {
@@ -141,7 +127,6 @@ public class Trip {
         t.startDate = this.startDate;
         t.endDate = this.endDate;
         t.ownerId = this.ownerId;
-        t.baseCurrency = this.baseCurrency;
         return t;
     }
 

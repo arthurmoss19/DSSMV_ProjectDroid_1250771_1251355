@@ -13,8 +13,6 @@ public class User {
     private String email;
     private String passwordHash;
 
-    private boolean active = true;
-
     public User() {}
 
     public User(String name, String email, String passwordHash) {
@@ -72,18 +70,6 @@ public class User {
             throw new InvalidDataException("User: passwordHash vazio");
         }
         this.passwordHash = passwordHash;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public boolean hasId() {
-        return id != null && !id.trim().isEmpty();
     }
 
     public boolean isEqualTo(User obj) {

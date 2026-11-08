@@ -16,7 +16,6 @@ public class TripTest {
         assertEquals("04-11-2026", trip.getStartDate());
         assertEquals("09-11-2026", trip.getEndDate());
         assertEquals("user-1", trip.getOwnerId());
-        assertEquals("EUR", trip.getBaseCurrency());
         assertEquals(5, trip.getDurationInDays());
     }
 
@@ -50,7 +49,6 @@ public class TripTest {
     public void copyKeepsAllFieldsAndIsIndependent() {
         Trip original = new Trip("Viagem", "Descrição", "04-11-2026", "09-11-2026", "user-1");
         original.setId("trip-1");
-        original.setBaseCurrency("GBP");
 
         Trip copy = original.copy();
 
@@ -61,7 +59,6 @@ public class TripTest {
         assertEquals(original.getStartDate(), copy.getStartDate());
         assertEquals(original.getEndDate(), copy.getEndDate());
         assertEquals(original.getOwnerId(), copy.getOwnerId());
-        assertEquals("GBP", copy.getBaseCurrency());
 
         copy.setTitle("Outra viagem");
         assertEquals("Viagem", original.getTitle());
