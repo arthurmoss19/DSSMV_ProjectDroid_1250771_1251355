@@ -1,4 +1,5 @@
-DSSMV_ProjectDroid_1250771_1251355
+DSSMV_ProjectDroid
+1250771 1251355
 
 Unidade Curricular - Desenvolvimento de Software e Sistemas Móveis  | ISEP | 2026 - 2027
 
