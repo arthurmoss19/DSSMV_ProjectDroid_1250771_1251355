@@ -45,7 +45,7 @@ public class TripListActivity extends AppCompatActivity implements TripAdapter.L
 
     private TripMemberController memberController;
 
-    private static final long INVITE_POLL_MS = 10000;
+    private static final long INVITE_POLL_MS = 60000;
 
     private final Set<String> shownInvites = new HashSet<>();
     private final Handler handler = new Handler(Looper.getMainLooper());

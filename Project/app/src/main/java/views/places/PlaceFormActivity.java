@@ -1,7 +1,6 @@
 package views.places;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -52,7 +51,6 @@ import android.app.AlertDialog;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.content.res.ColorStateList;
 
 public class PlaceFormActivity extends AppCompatActivity {
@@ -249,7 +247,7 @@ public class PlaceFormActivity extends AppCompatActivity {
             transientPlace.setCategoryId(categoryId == null
                     ? CategoryController.defaults().get(0).getId()
                     : categoryId);
-            transientPlace.setRating(Math.max(1.0f, rating.getRating()));
+            transientPlace.setRating(Math.max(0.5f, rating.getRating()));
             showLoading(true);
             placeController.enrich(transientPlace, new ApiCallback<Place>() {
                 @Override
@@ -296,7 +294,7 @@ public class PlaceFormActivity extends AppCompatActivity {
             target.setTripId(tripId);
             target.setName(text(editName));
             target.setCategoryId(category.getId());
-            target.setRating(Math.max(1.0f, rating.getRating()));
+            target.setRating(Math.max(0.5f, rating.getRating()));
             target.setLatitude(parse(editLatitude));
             target.setLongitude(parse(editLongitude));
             if (editingPlace == null || target.getVisitedAt() == null) {
