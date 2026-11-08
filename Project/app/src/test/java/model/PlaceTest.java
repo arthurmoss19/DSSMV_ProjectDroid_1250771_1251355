@@ -25,9 +25,9 @@ public class PlaceTest {
     public void acceptsRatingBoundaries() {
         Place place = new Place("trip-1", "Local", 38.0, -9.0);
         place.setRating(1);
-        assertEquals(1, place.getRating());
+        assertEquals(1.0, place.getRating(), 0.0001);
         place.setRating(5);
-        assertEquals(5, place.getRating());
+        assertEquals(5.0, place.getRating(), 0.0001);
     }
 
     @Test(expected = InvalidDataException.class)

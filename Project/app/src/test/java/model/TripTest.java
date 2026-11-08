@@ -10,44 +10,44 @@ public class TripTest {
 
     @Test
     public void createsValidTrip() {
-        Trip trip = new Trip("Porto e Lisboa", "Duas cidades", "04-11-2026", "09-11-2026", "user-1");
+        Trip trip = new Trip("Porto e Lisboa", "Duas cidades", "2026-11-04", "2026-11-09", "user-1");
         assertEquals("Porto e Lisboa", trip.getTitle());
         assertEquals("Duas cidades", trip.getDescription());
-        assertEquals("04-11-2026", trip.getStartDate());
-        assertEquals("09-11-2026", trip.getEndDate());
+        assertEquals("2026-11-04", trip.getStartDate());
+        assertEquals("2026-11-09", trip.getEndDate());
         assertEquals("user-1", trip.getOwnerId());
-        assertEquals(5, trip.getDurationInDays());
+        assertEquals(6, trip.getDurationInDays());
     }
 
     @Test
     public void oneDayTripCountsAsOneDay() {
-        Trip trip = new Trip("Um dia", "", "04-11-2026", "04-11-2026", "user-1");
+        Trip trip = new Trip("Um dia", "", "2026-11-04", "2026-11-04", "user-1");
         assertEquals(1, trip.getDurationInDays());
     }
 
     @Test(expected = InvalidDataException.class)
     public void rejectsShortTitle() {
-        new Trip("ab", "", "04-11-2026", "09-11-2026", "user-1");
+        new Trip("ab", "", "2026-11-04", "2026-11-09", "user-1");
     }
 
     @Test(expected = InvalidDataException.class)
     public void rejectsInvalidStartDate() {
-        new Trip("Viagem", "", "30-02-2026", "02-03-2026", "user-1");
+        new Trip("Viagem", "", "2026-02-30", "2026-03-02", "user-1");
     }
 
     @Test(expected = InvalidDataException.class)
     public void rejectsEndDateBeforeStartDate() {
-        new Trip("Viagem", "", "09-11-2026", "04-11-2026", "user-1");
+        new Trip("Viagem", "", "2026-11-09", "2026-11-04", "user-1");
     }
 
     @Test(expected = InvalidDataException.class)
     public void rejectsMissingOwner() {
-        new Trip("Viagem", "", "04-11-2026", "09-11-2026", "");
+        new Trip("Viagem", "", "2026-11-04", "2026-11-09", "");
     }
 
     @Test
     public void copyKeepsAllFieldsAndIsIndependent() {
-        Trip original = new Trip("Viagem", "Descrição", "04-11-2026", "09-11-2026", "user-1");
+        Trip original = new Trip("Viagem", "Descrição", "2026-11-04", "2026-11-09", "user-1");
         original.setId("trip-1");
 
         Trip copy = original.copy();
@@ -66,7 +66,7 @@ public class TripTest {
 
     @Test
     public void hasIdOnlyWhenIdIsNotBlank() {
-        Trip trip = new Trip("Viagem", "", "04-11-2026", "09-11-2026", "user-1");
+        Trip trip = new Trip("Viagem", "", "2026-11-04", "2026-11-09", "user-1");
         assertTrue(!trip.hasId());
         trip.setId("trip-1");
         assertTrue(trip.hasId());

@@ -13,8 +13,8 @@ public class UserTest {
     public void createsValidUserAndNormalisesEmail() {
         User user = new User("userteste", "  Teste@Example.COM ", PasswordUtils.hash("teste"));
 
-        assertEquals("Pedro Silva", user.getName());
-        assertEquals("pedro@example.com", user.getEmail());
+        assertEquals("userteste", user.getName());
+        assertEquals("teste@example.com", user.getEmail());
         assertFalse(user.getPasswordHash().isEmpty());
         assertTrue(user.isEqualTo(new User("Outro Nome", "Teste@example.com", "x")));
     }

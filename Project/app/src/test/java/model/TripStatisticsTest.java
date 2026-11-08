@@ -11,7 +11,7 @@ public class TripStatisticsTest {
 
     @Test
     public void calculatesPlacesCountriesDistanceAndRating() {
-        Trip trip = new Trip("Teste", "", "04-11-2026", "05-11-2026", "user-1");
+        Trip trip = new Trip("Teste", "", "2026-11-04", "2026-11-05", "user-1");
 
         Place lisbon = new Place("trip-1", "Lisboa", 38.7223, -9.1393);
         lisbon.setCategoryId("cat-1");
@@ -27,7 +27,7 @@ public class TripStatisticsTest {
 
         assertEquals(2, statistics.getPlaceCount());
         assertEquals(1, statistics.getCountryCount());
-        assertEquals(3, statistics.getDayCount());
+        assertEquals(2, statistics.getDayCount());
         assertEquals(4.0, statistics.getAverageRating(), 0.01);
         assertTrue(statistics.getTotalDistanceKm() > 200);
         assertFalse(statistics.isEmpty());
@@ -35,7 +35,7 @@ public class TripStatisticsTest {
 
     @Test
     public void emptyTripHasZeroValues() {
-        Trip trip = new Trip("Vazia", "", "04-11-2026", "05-11-2026", "user-1");
+        Trip trip = new Trip("Vazia", "", "2026-11-04", "2026-11-04", "user-1");
         TripStatistics statistics = new TripStatistics(Collections.emptyList(), trip);
 
         assertEquals(0, statistics.getPlaceCount());

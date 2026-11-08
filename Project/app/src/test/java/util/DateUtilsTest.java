@@ -9,12 +9,12 @@ public class DateUtilsTest {
 
     @Test
     public void acceptsValidIsoDate() {
-        assertTrue(DateUtils.isValidDate("22-10-2026"));
+        assertTrue(DateUtils.isValidDate("2026-10-22"));
     }
 
     @Test
     public void rejectsInvalidDates() {
-        assertFalse(DateUtils.isValidDate("30-02-2026"));
+        assertFalse(DateUtils.isValidDate("2026-02-30"));
         assertFalse(DateUtils.isValidDate("22/10/2026"));
         assertFalse(DateUtils.isValidDate(""));
         assertFalse(DateUtils.isValidDate(null));
@@ -22,9 +22,9 @@ public class DateUtilsTest {
 
     @Test
     public void daysBetweenCountsCalendarDays() {
-        assertEquals(4L, DateUtils.daysBetween("01-10-2026", "05-10-2026"));
-        assertEquals(0L, DateUtils.daysBetween("01-10-2026", "01-10-2026"));
-        assertEquals(0L, DateUtils.daysBetween(null, "01-10-2026"));
+        assertEquals(4L, DateUtils.daysBetween("2026-10-01", "2026-10-05"));
+        assertEquals(0L, DateUtils.daysBetween("2026-10-01", "2026-10-01"));
+        assertEquals(0L, DateUtils.daysBetween(null, "2026-10-01"));
     }
 
     @Test
@@ -41,15 +41,15 @@ public class DateUtilsTest {
     @Test
     public void formatsRangeWithHyphen() {
         assertEquals("01/10/2026 - 05/10/2026",
-                DateUtils.formatRange("01-10-2026", "05-10-2026"));
+                DateUtils.formatRange("2026-10-01", "2026-10-05"));
     }
 
     @Test
     public void validatesRangeOrder() {
-        assertTrue(DateUtils.isRangeValid("01-10-2026", "05-10-2026"));
-        assertTrue(DateUtils.isRangeValid("05-10-2026", "05-10-2026"));
-        assertFalse(DateUtils.isRangeValid("05-10-2026", "01-10-2026"));
-        assertFalse(DateUtils.isRangeValid(null, "01-10-2026"));
+        assertTrue(DateUtils.isRangeValid("2026-10-01", "2026-10-05"));
+        assertTrue(DateUtils.isRangeValid("2026-10-05", "2026-10-05"));
+        assertFalse(DateUtils.isRangeValid("2026-10-05", "2026-10-01"));
+        assertFalse(DateUtils.isRangeValid(null, "2026-10-01"));
     }
 
     @Test
