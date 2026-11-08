@@ -45,18 +45,10 @@ public final class ApiClient {
         return geocodingApi;
     }
 
-    public static Gson gson() {
-        return GSON;
-    }
     public static boolean isKeyMissing(String key) {
         return key == null || key.trim().isEmpty() || "X".equalsIgnoreCase(key.trim());
     }
 
-    public static synchronized void reset() {
-        restDbApi = null;
-        geocodingApi = null;
-        imgBbApi = null;
-    }
     private static Retrofit build(String baseUrl) {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)

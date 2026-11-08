@@ -16,9 +16,6 @@ public class GeocodingResponse {
         }
         return data.get(0);
     }
-    public Error getError() {
-        return error;
-    }
 
     public boolean hasError() {
         return error != null && error.getCode() != null;
@@ -26,14 +23,11 @@ public class GeocodingResponse {
 
     public static class Result {
         private String label;
-        private String name;
         private String number;
         private String street;
         private String locality;
-        private String region;
         private String country;
         private String country_code;
-        private String postal_code;
 
         public String getLabel() {
             return label;
@@ -41,10 +35,6 @@ public class GeocodingResponse {
 
         public String getLocality() {
             return locality;
-        }
-
-        public String getRegion() {
-            return region;
         }
 
         public String getCountry() {
@@ -66,14 +56,9 @@ public class GeocodingResponse {
 
     public static class Error {
         private String code;
-        private String message;
 
         public String getCode() {
             return code;
-        }
-
-        public String getMessage() {
-            return message;
         }
     }
 }

@@ -6,6 +6,5 @@ public class ImgBbResponse {
 
     public static class Data {
         public String url;
-        public String display_url;
     }
 }

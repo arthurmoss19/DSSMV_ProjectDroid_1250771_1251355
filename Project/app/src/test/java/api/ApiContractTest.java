@@ -61,14 +61,6 @@ public class ApiContractTest {
     }
 
     @Test
-    public void uploadUsesMultipartMediaEndpoint() throws Exception {
-        Method method = RestDbApi.class.getMethod("uploadMedia", MultipartBody.Part.class);
-
-        assertNotNull(method.getAnnotation(Multipart.class));
-        assertEquals("media", method.getAnnotation(POST.class).value());
-    }
-
-    @Test
     public void geocodingUsesReverseEndpoint() throws Exception {
         Method method = GeocodingApi.class.getMethod(
                 "reverse", String.class, String.class, int.class);

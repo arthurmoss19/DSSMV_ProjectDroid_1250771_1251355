@@ -3,7 +3,6 @@ package api;
 import java.util.List;
 import java.util.Map;
 
-import api.dto.MediaUploadResponse;
 import model.*;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -75,10 +74,6 @@ public interface RestDbApi {
 
     @DELETE("rest/members/{id}")
     Call<ResponseBody> deleteMember(@Path("id") String id);
-
-    @Multipart
-    @POST("media")
-    Call<MediaUploadResponse> uploadMedia(@Part MultipartBody.Part file);
 }
 
 
