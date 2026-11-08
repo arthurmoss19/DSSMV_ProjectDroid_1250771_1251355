@@ -25,7 +25,7 @@ public class TripStatistics {
                 if (code != null && !code.trim().isEmpty()) {
                     countries.add(code.trim().toUpperCase());
                 }
-                if (place.getRating() > 0) {
+                if (place.getRating() >= 1) {
                     ratingSum += place.getRating();
                     ratingCount++;
                 }
