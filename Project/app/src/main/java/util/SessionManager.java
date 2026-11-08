@@ -43,10 +43,6 @@ public final class SessionManager {
         return preferences.getString(KEY_USER_ID, null);
     }
 
-    public String getUserName() {
-        return preferences.getString(KEY_USER_NAME, "");
-    }
-
     public String getUserEmail() {
         return preferences.getString(KEY_USER_EMAIL, "");
     }

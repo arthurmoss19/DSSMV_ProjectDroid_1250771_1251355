@@ -126,10 +126,6 @@ public class ImageUtils {
         }
     }
 
-    public static long sizeInKb(File file) {
-        return file == null ? 0 : file.length() / 1024;
-    }
-
     public static File fromUri(Context context, Uri uri) {
         try (InputStream input = context.getContentResolver().openInputStream(uri)) {
             if (input == null) {

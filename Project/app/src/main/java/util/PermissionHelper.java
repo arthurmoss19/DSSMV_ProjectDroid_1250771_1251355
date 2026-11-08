@@ -32,7 +32,4 @@ public final class PermissionHelper {
         ActivityCompat.requestPermissions(activity,
                 new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
     }
-    public static String deniedMessage(String feature) {
-        return "Permissão recusada.";
-    }
 }
